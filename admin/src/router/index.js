@@ -1,9 +1,9 @@
 import { createRouter, createWebHistory } from "vue-router";
-import isLogged from '@/middleware/isLogged';
-import isNotLogged from '@/middleware/isNotLogged';
 
 import HomeView from "@/views/HomeView.vue";
 import LoginView from "@/views/LoginView.vue";
+import { store } from "@/services/auth.js";
+
 
 const routes = [
   {
@@ -11,7 +11,7 @@ const routes = [
     name: "Home",
     component: HomeView,
     meta: {
-      middleware: isLogged
+      middleware: "auth",
     }
   },
   {
@@ -19,7 +19,7 @@ const routes = [
     name: "Login",
     component: LoginView,
     meta: {
-      middleware: isNotLogged
+      middleware: "guest"
     }
   },
 ];
@@ -29,36 +29,21 @@ const router = createRouter({
   routes,
 });
 
-
-function nextFactory(context, middleware, index) {
-    const subsequentMiddleware = middleware[index];
-    if (!subsequentMiddleware) return context.next;
-  
-    return (...parameters) => {
-      context.next(...parameters);
-      const nextMiddleware = nextFactory(context, middleware, index);
-      subsequentMiddleware({ ...context, next: nextMiddleware });
-    };
-}
-  
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
     if (to.meta.middleware) {
-      const middleware = Array.isArray(to.meta.middleware)
-        ? to.meta.middleware
-        : [to.meta.middleware];
-  
-      const context = {
-        from,
-        next,
-        router,
-        to,
-      };
-      const nextMiddleware = nextFactory(context, middleware, 1);
-  
-      return middleware[0]({ ...context, next: nextMiddleware });
+      const middleware = to.meta.middleware;
+      const isAuth = await store.getUser();
+
+      if (isAuth) {
+        middleware === "guest" ? next('/') :next();
+      }else{
+        middleware === "auth" ? next('/login') :next();
+      }
+    }else{
+      next();
     }
-  
-    return next();
+    
 });
+
 
 export default router;
