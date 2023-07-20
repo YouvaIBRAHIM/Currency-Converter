@@ -29,7 +29,7 @@ export const store = reactive({
                 email: data.email,
                 password: data.password,
             });
-            if (response?.status === 204) {
+            if (response?.status === 202) {
                 router.push("/")
             }
         } catch (error) {
