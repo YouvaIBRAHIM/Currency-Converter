@@ -14,6 +14,7 @@ export const store = reactive({
         try {
             const data = await axiosInstance.get("/api/user");
             if (data) {
+                this.user = data.data
                 return true
             }
         } catch (error) {
@@ -30,14 +31,21 @@ export const store = reactive({
                 password: data.password,
             });
             if (response?.status === 202) {
-                router.push("/")
+                router.push("/admin")
             }
         } catch (error) {
             console.log("🚀 ~ file: auth.js:37 ~ handleLogin ~ error:", error)
         }
     },
     async handleLogout() {
-        await axiosInstance.post("/logout");
-        this.user = null;
+        try {
+            const response = await axiosInstance.post("/logout");
+            if (response) {
+                this.user = null;
+                router.push("/login")
+            }
+        } catch (error) {
+            console.log("🚀 ~ file: auth.js:49 ~ handleLogout ~ error:", error)
+        }
     },
 });
