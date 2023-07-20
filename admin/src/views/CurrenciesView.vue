@@ -1,54 +1,18 @@
 <script setup>
+import CurrencyLine from "@/components/CurrencyLine.vue"
+import { useCurrencies } from "@/composables/currencies";
 
-const desserts = [
-          {
-            name: 'Frozen Yogurt',
-            calories: 159,
-          },
-          {
-            name: 'Ice cream sandwich',
-            calories: 237,
-          },
-          {
-            name: 'Eclair',
-            calories: 262,
-          },
-          {
-            name: 'Cupcake',
-            calories: 305,
-          },
-          {
-            name: 'Gingerbread',
-            calories: 356,
-          },
-          {
-            name: 'Jelly bean',
-            calories: 375,
-          },
-          {
-            name: 'Lollipop',
-            calories: 392,
-          },
-          {
-            name: 'Honeycomb',
-            calories: 408,
-          },
-          {
-            name: 'Donut',
-            calories: 452,
-          },
-          {
-            name: 'KitKat',
-            calories: 518,
-          },
-        ]
+const { currencies, isLoading, error } = useCurrencies();
+
 </script>
 
 <template>
+
   <v-container>
     <h3 class="font-weight-light">
       Devises
     </h3>
+
     <v-table
       fixed-header
       height="80vh"
@@ -56,22 +20,35 @@ const desserts = [
       <thead>
         <tr>
           <th class="text-left">
-            Name
+            Nom
           </th>
           <th class="text-left">
-            Calories
+            Code
+          </th>
+          <th class="text-right">
+            Actions
           </th>
         </tr>
       </thead>
-      <tbody>
-        <tr
-          v-for="item in desserts"
-          :key="item.name"
-        >
-          <td>{{ item.name }}</td>
-          <td>{{ item.calories }}</td>
-        </tr>
-      </tbody>
+
+      <template v-if="currencies">
+        <tbody>
+          <CurrencyLine
+            v-for="currency in currencies"
+            :key="currency.id"
+            :currency="currency"
+            
+          />
+        </tbody>
+      </template>
+      <template v-else-if="isLoading">
+        <v-skeleton-loader  v-for="n in 5" :key="n"
+          type="table-row-divider"
+          class="ma-auto"
+        />
+      </template>
     </v-table>
+    
   </v-container>
+
 </template>

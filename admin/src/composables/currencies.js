@@ -14,7 +14,7 @@ export const useCurrencies = () => {
         } catch (err) {
             error.value = err.message;
         } finally {
-            isLoading.value = false;
+            // isLoading.value = false;
         }
     }
 

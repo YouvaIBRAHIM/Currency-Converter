@@ -13,7 +13,9 @@ class CurrencyController extends Controller
      */
     public function index()
     {
-        //
+        $currencies = Currency::all()->toArray();
+
+        return response()->json($currencies, 200);
     }
 
     /**
