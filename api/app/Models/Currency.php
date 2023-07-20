@@ -10,6 +10,11 @@ class Currency extends Model
 {
     use HasFactory;
 
+    public $fillable = [
+        "name",
+        "code"
+    ];
+    
     public function pairs() : HasMany
     {
         return $this->hasMany(Pair::class, 'from_id');

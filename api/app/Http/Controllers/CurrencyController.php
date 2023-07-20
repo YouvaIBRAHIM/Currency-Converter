@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Currency;
 use App\Http\Requests\StoreCurrencyRequest;
-use App\Http\Requests\UpdateCurrencyRequest;
+use Illuminate\Http\Request;
 
 class CurrencyController extends Controller
 {
@@ -53,9 +53,23 @@ class CurrencyController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateCurrencyRequest $request, Currency $currency)
+    public function update(Request $request, Currency $currency)
     {
-        //
+
+        try {
+            
+            $name = $request->name;
+            $code = $request->code;
+            Currency::find($currency->id)->update([
+                "name" => $name,
+                "code" => $code
+            ]);
+
+
+            return response("Devise mise à jour", 200);
+        } catch (\Throwable $th) {
+            return response($th->getMessage(), $th->getCode());
+        }
     }
 
     /**

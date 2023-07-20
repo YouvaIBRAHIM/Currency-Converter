@@ -1,5 +1,6 @@
 <script setup>
 import { toRefs, defineProps, ref } from 'vue';
+import { updateCurrency } from "@/services/api";
 
 
 const props = defineProps(['currency']);
@@ -8,6 +9,7 @@ const { currency } = toRefs(props);
 const isEditing = ref(false)
 
 const form = ref({name : currency.value.name, code: currency.value.code});
+const currencyStatus = ref({success : null, isLoading : false, error : null});
 
 const rules = {
   required: (value) => value?.trim() !== "" ? true : "Champ obligatoire",
@@ -22,12 +24,35 @@ const onCancelButton = () => {
     isEditing.value = false
 }
 
-const onUpdateButton = () => {
-    
+const onUpdateButton = async (id) => {
+    currencyStatus.value.isLoading = true;
+
+    const data = {
+        name: form.value.name,
+        code: form.value.code
+    }
+
+    try {
+        const response = await updateCurrency(id, data);
+        currencyStatus.value.success = response;
+        currency.value.name = data.name;
+        currency.value.code = data.code;
+        isEditing.value = false
+    } catch (err) {
+        currencyStatus.value.error = err.message;
+    } finally {
+        currencyStatus.value.isLoading = false;
+    }
 }
 </script>
 
 <template>
+    <v-progress-linear
+        v-if="currencyStatus.isLoading"
+        class="progressLinear"
+        indeterminate
+        color="yellow-darken-2"
+    ></v-progress-linear>
     <tr>
         <template v-if="isEditing">
             <td>
@@ -60,7 +85,7 @@ const onUpdateButton = () => {
         <td>
             <div class="actions" v-if="isEditing">
                 <div class="pa-2 action">
-                    <v-btn color="indigo-darken-1" @click="onUpdateButton">
+                    <v-btn color="indigo-darken-1" @click="() => onUpdateButton(currency.id)">
                         <v-icon icon="mdi-content-save" title="Enregistrer"></v-icon>
                         <v-tooltip
                             activator="parent"
@@ -99,7 +124,40 @@ const onUpdateButton = () => {
                 </div>
             </div>
         </td>
-
+        <v-snackbar
+            v-model="currencyStatus.success"
+            :timeout="5000"
+            color="success"
+            variant="tonal"
+        >
+            {{currencyStatus.success && currencyStatus.success}}
+            <template v-slot:actions>
+                <v-btn
+                    color="green"
+                    variant="text"
+                    @click="currencyStatus.success = null"
+                >
+                    <v-icon icon="mdi-window-close" title="Fermer"></v-icon>
+                </v-btn>
+            </template>
+        </v-snackbar>
+        <v-snackbar
+            v-model="currencyStatus.error"
+            :timeout="5000"
+            color="red-lighten-1"
+            variant="tonal"
+        >
+            {{currencyStatus.error && currencyStatus.error}}
+            <template v-slot:actions>
+                <v-btn
+                    color="pink"
+                    variant="text"
+                    @click="currencyStatus.error = null"
+                >
+                    <v-icon icon="mdi-window-close" title="Fermer"></v-icon>
+                </v-btn>
+            </template>
+        </v-snackbar>
     </tr>
 </template>
 
@@ -114,9 +172,7 @@ const onUpdateButton = () => {
     width: 65px!important;
 }
 
-.form-input >>> .error--text {
-    position: absolute;
-    right: 0;
-  color: rgba(255, 255, 255, 0.7) !important;
+.progressLinear {
+    transform: none!important;
 }
 </style>
