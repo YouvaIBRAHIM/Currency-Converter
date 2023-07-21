@@ -19,4 +19,11 @@ Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
 });
 
 
-Route::middleware(['auth:sanctum'])->resource('/currencies', "App\Http\Controllers\CurrencyController");
+// Route::middleware(['auth:sanctum'])->resource('/currencies', "App\Http\Controllers\CurrencyController", ['except' => ['index', 'show']]);
+
+Route::group(['middleware' => 'auth:sanctum'], function () {
+    Route::resource('/currencies', "App\Http\Controllers\CurrencyController", ['except' => ['index', 'show']]);
+});
+
+Route::get('/currencies', "App\Http\Controllers\CurrencyController@index");
+Route::get('/currencies/{currency}', "App\Http\Controllers\CurrencyController@show");

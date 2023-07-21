@@ -16,6 +16,7 @@ const vuetify = createVuetify({
   icons: { defaultSet: 'mdi' }
 })
 
+
 createApp(App)
 .use(vuetify)
 .use(router)

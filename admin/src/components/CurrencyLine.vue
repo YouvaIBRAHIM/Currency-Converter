@@ -1,5 +1,5 @@
 <script setup>
-import { toRefs, defineProps, ref } from 'vue';
+import { toRefs, ref } from 'vue';
 import { updateCurrency } from "@/services/api";
 
 
@@ -61,7 +61,7 @@ const onUpdateButton = async (id) => {
                     density="compact"
                     placeholder="Nom"
                     type="text"
-                    variant="outlined"
+                    variant="filled"
                     v-model="form.name"
                     :rules="[rules.required]"
                 ></v-text-field>
@@ -72,7 +72,7 @@ const onUpdateButton = async (id) => {
                     density="compact"
                     placeholder="Code"
                     type="text"
-                    variant="outlined"
+                    variant="filled"
                     v-model="form.code"
                     :rules="[rules.codeFormat]"
                 ></v-text-field>
@@ -162,6 +162,9 @@ const onUpdateButton = async (id) => {
 </template>
 
 <style scoped>
+td{
+    min-width: 250px;
+}
 .actions{
     display: flex;
     align-items: center;
