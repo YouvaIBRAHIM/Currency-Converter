@@ -39,7 +39,7 @@ const onUpdateButton = async (id) => {
         currency.value.code = data.code;
         isEditing.value = false
     } catch (err) {
-        currencyStatus.value.error = err.message;
+        currencyStatus.value.error = err?.response?.data ? err?.response?.data[0] : err.message;
     } finally {
         currencyStatus.value.isLoading = false;
     }

@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CurrencyRequest;
 use App\Models\Currency;
 use App\Http\Requests\StoreCurrencyRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class CurrencyController extends Controller
 {
@@ -57,14 +59,31 @@ class CurrencyController extends Controller
     {
 
         try {
-            
+
+            $validator = Validator::make($request->all(),
+            [
+                'name' => 'required|string|min:3|max:191',
+                'code' => 'required|string|min:3|max:3',
+            ],
+            [
+                'name.reuired' => 'Le champ "Nom" est obligatoire.',
+                'code.required' => 'Le champ "Code" est obligatoire.',
+                'code.min' => 'Le champ "Code" doit contenir 3 caractères.',
+                'code.max' => 'Le champ "Code" doit contenir 3 caractères.',
+            ]);
+    
+            if ($validator->fails()) {
+                $errors = array_values($validator->errors()->toArray())[0];
+                return response()->json($errors, 405);
+            }
+
             $name = $request->name;
             $code = $request->code;
+
             Currency::find($currency->id)->update([
                 "name" => $name,
                 "code" => $code
             ]);
-
 
             return response("Devise mise à jour", 200);
         } catch (\Throwable $th) {
