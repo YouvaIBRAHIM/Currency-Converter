@@ -15,6 +15,7 @@ const form = ref({
     newToCurrency: pair.value.to_currency.id,
     newCurrencyRate: pair.value.currency_rate,
 });
+
 const pairStatus = ref({isLoading : false});
 
 const edit = (value = false) => {
@@ -28,6 +29,11 @@ const onUpdateButton = async (form, pair, edit, pairStatus) => {
     const success = await props.onUpdateButton(form, pair, edit, pairStatus);
 
     if (success) {
+        // Si la source ou/et le destinataire d'une paire sont modifiés, Le décompte des appels API sera remis à 0
+        if (pair.from_id !== form.newFromCurrency || pair.to_id !== form.newToCurrency) {
+            pair.count.count = 0;
+        }
+
         pair.from_id = form.newFromCurrency;
         pair.to_id = form.newToCurrency;
         pair.currency_rate = form.newCurrencyRate;
@@ -92,6 +98,7 @@ const onUpdateButton = async (form, pair, edit, pairStatus) => {
             <td>{{ pair.to_currency.name }} ({{ pair.to_currency.code }})</td>
             <td>{{ pair.currency_rate }}</td>
         </template>
+        <td>{{ pair?.count?.count ?? 0 }}</td>
         <td>
             <div class="actions" v-if="isEditing">
                 <div class="pa-2 action">

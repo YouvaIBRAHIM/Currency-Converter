@@ -10,6 +10,11 @@ class Converter extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        "pair_id",
+        "count"
+    ];
+
     public function pair() : BelongsTo
     {
         return $this->belongsTo(Pair::class, 'id');

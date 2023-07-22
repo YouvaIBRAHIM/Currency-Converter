@@ -120,6 +120,9 @@ const formRules = {
           <th class="text-left">
             Taux de change
           </th>
+          <th class="text-left">
+            Appels API
+          </th>
           <th class="text-right">
             Actions
           </th>
@@ -129,7 +132,7 @@ const formRules = {
       <tbody>
         <template v-if="state.isLoading">
           <tr v-for="n in 5" :key="n">
-            <TableSkeletonLoader cell="4"/>
+            <TableSkeletonLoader cell="5"/>
           </tr>
         </template>
         <template v-else-if="pairs?.data">

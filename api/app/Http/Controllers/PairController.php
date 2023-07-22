@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Converter;
 use App\Models\Pair;
-use App\Http\Requests\StorePairRequest;
-use App\Http\Requests\UpdatePairRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -16,7 +15,7 @@ class PairController extends Controller
     public function index()
     {
         try {
-            $pairs = Pair::with(["fromCurrency", "toCurrency"])->orderBy('created_at', 'desc')->paginate(5);
+            $pairs = Pair::with(["fromCurrency", "toCurrency", "count"])->orderBy('created_at', 'desc')->paginate(5);
 
             return response()->json($pairs, 200);
         } catch (\Throwable $th) {
@@ -62,6 +61,10 @@ class PairController extends Controller
             $toId = $request->to_id;
             $currencyRate = $request->currency_rate;
 
+            if ($fromId === $toId) {
+                return response()->json(["Une paire doit avoir une source et un destinataire différent."], 405);
+            }
+
             // Recherchez d'abord la paire en fonction du form_id et du to_id
             $existingPair = Pair::where('from_id', $fromId)
                                         ->where('to_id', strtoupper($toId))
@@ -78,7 +81,12 @@ class PairController extends Controller
                 "currency_rate" => $currencyRate,
             ]);
 
-            $newPair = Pair::with(["fromCurrency", "toCurrency"])->where('id', $newPair->id)->first();
+            Converter::create([
+                "pair_id" => $newPair->id,
+                "count" => 0
+            ]);
+
+            $newPair = Pair::with(["fromCurrency", "toCurrency", "count"])->where('id', $newPair->id)->first();
 
             return response()->json($newPair, 200);
         } catch (\Throwable $th) {
@@ -132,6 +140,10 @@ class PairController extends Controller
             $toId = $request->to_id;
             $currencyRate = $request->currency_rate;
 
+            if ($fromId === $toId) {
+                return response()->json(["Une paire doit avoir une source et un destinataire différent."], 405);
+            }
+
             // Recherchez d'abord la paire en fonction du form_id et du to_id
             $existingPair = Pair::where('from_id', $fromId)
                                         ->where('to_id', strtoupper($toId))
@@ -142,13 +154,21 @@ class PairController extends Controller
                 return response()->json(["La paire existe déjà."], 405);
             }
 
+            // Si la source ou/et le destinataire d'une paire sont modifiés, Le décompte des appels API sera remis à 0
+            $areIdsChange = $pair->from_id !== $fromId || $pair->to_id !== $toId;
+            if ($areIdsChange) {
+                $pair->count()->update([
+                    "count" => 0
+                ]);
+            }
+            
             Pair::find($pair->id)->update([
                 "from_id" => $fromId,
                 "to_id" => $toId,
                 "currency_rate" => $currencyRate,
             ]);
 
-            return response("Pair mise à jour", 200);
+            return response($areIdsChange ? "La paire et le décompte de l'appel API ont été mis à jour" : "La paire a été mise à jour", 200);
         } catch (\Throwable $th) {
             return response($th->getMessage(), $th->getCode());
         }

@@ -30,12 +30,12 @@ const form = ref({
           color="blue-darken-1"
           v-bind="props"
         >
-          Ajouter une pair
+          Ajouter une paire
         </v-btn>
       </template>
       <v-card>
         <v-card-title>
-          <span class="text-h5">Nouvelle devise</span>
+          <span class="text-h5">Nouvelle Paire</span>
         </v-card-title>
         <v-form  @submit.prevent="onNewPair(form)">
           <v-card-text>

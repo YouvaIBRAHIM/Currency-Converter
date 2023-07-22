@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use App\Models\Converter;
 use App\Models\Pair;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class ConverterSeeder extends Seeder
