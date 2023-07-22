@@ -14,3 +14,8 @@ export const updateCurrency = async (id, data) => {
     const response = await axiosInstance.put(`/api/currencies/${id}`, data)
     return response.data;
 }
+
+export const deleteCurrency = async (id) => {
+    const response = await axiosInstance.delete(`/api/currencies/${id}`)
+    return response.data;
+}

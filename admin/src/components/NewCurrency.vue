@@ -22,7 +22,6 @@ const rules = {
   <v-row justify="end" class="newCurrencyButton">
     <v-dialog
       v-model="dialog"
-      persistent
       width="300"
     >
       <template v-slot:activator="{ props }">

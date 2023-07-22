@@ -152,6 +152,11 @@ class CurrencyController extends Controller
      */
     public function destroy(Currency $currency)
     {
-        //
+        try {
+            $currency->delete();
+            return response("Devise supprimée", 200);
+        } catch (\Throwable $th) {
+            return response($th->getMessage(), $th->getCode());
+        }
     }
 }

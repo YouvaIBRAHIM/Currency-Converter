@@ -1,9 +1,10 @@
 <script setup>
 import { toRefs, ref } from 'vue';
 import { updateCurrency } from "@/services/api";
+import Alert from "@/components/Alert.vue";
 
 
-const props = defineProps(['currency']);
+const props = defineProps(['currency', 'showDeleteCurrency']);
 
 const { currency } = toRefs(props);
 const isEditing = ref(false)
@@ -90,7 +91,7 @@ const onUpdateButton = async (id) => {
                         <v-tooltip
                             activator="parent"
                             location="top"
-                        >Modifier</v-tooltip>
+                        >Enregistrer</v-tooltip>
                     </v-btn>
                 </div>
                 <div class="pa-2 action">
@@ -114,7 +115,7 @@ const onUpdateButton = async (id) => {
                     </v-btn>
                 </div>
                 <div class="pa-2 action">
-                    <v-btn color="red-darken-1">
+                    <v-btn color="red-darken-1" @click="() => props.showDeleteCurrency(currency)">
                         <v-icon icon="mdi-delete" title="Supprimer"></v-icon>
                         <v-tooltip
                             activator="parent"
@@ -124,40 +125,10 @@ const onUpdateButton = async (id) => {
                 </div>
             </div>
         </td>
-        <v-snackbar
-            v-model="currencyStatus.success"
-            :timeout="5000"
-            color="success"
-            variant="tonal"
-        >
-            {{currencyStatus.success && currencyStatus.success}}
-            <template v-slot:actions>
-                <v-btn
-                    color="green"
-                    variant="text"
-                    @click="currencyStatus.success = null"
-                >
-                    <v-icon icon="mdi-window-close" title="Fermer"></v-icon>
-                </v-btn>
-            </template>
-        </v-snackbar>
-        <v-snackbar
-            v-model="currencyStatus.error"
-            :timeout="5000"
-            color="red-lighten-1"
-            variant="tonal"
-        >
-            {{currencyStatus.error && currencyStatus.error}}
-            <template v-slot:actions>
-                <v-btn
-                    color="pink"
-                    variant="text"
-                    @click="currencyStatus.error = null"
-                >
-                    <v-icon icon="mdi-window-close" title="Fermer"></v-icon>
-                </v-btn>
-            </template>
-        </v-snackbar>
+
+        <Alert type="success" :content="currencyStatus.success"/>
+        <Alert type="error" :content="currencyStatus.error"/>
+
     </tr>
 </template>
 

@@ -2,18 +2,21 @@
 import CurrencyLine from "@/components/CurrencyLine.vue";
 import NewCurrency, { dialog } from "@/components/NewCurrency.vue";
 import { useCurrencies } from "@/composables/currencies";
-import { addCurrency } from "@/services/api";
+import { addCurrency, deleteCurrency } from "@/services/api";
 import router from "@/router";
 import { ref, watch } from "vue";
+import DeleteCurrency from "@/components/DeleteCurrency.vue";
+import Alert from "@/components/Alert.vue";
 
 const page = ref(router?.currentRoute?.value?.query?.page ?? 1)
 const currencies = ref(null);
 const isLoading = ref(false);
 const error = ref(null);
+const currencyToDelete = ref(null);
 
 useCurrencies(currencies, isLoading, error, page.value);
 
-watch(page, async (newValue, oldValue) => {
+watch(page, async (newValue) => {
   useCurrencies(currencies, isLoading, error, newValue);
 })
 
@@ -39,6 +42,21 @@ const onNewCurrency = async (form) => {
       error.value = err?.response?.data ? err?.response?.data[0] : err.message;
     } finally {
       isLoading.value = false;
+    }
+}
+
+const showDeleteCurrency = (currency = null) => {
+  currencyToDelete.value = currency
+}
+
+const onDeleteCurrency = async(id) => {
+    try {
+        const response = await deleteCurrency(id)
+        console.log("🚀 ~ file: DeleteCurrency.vue:10 ~ onDeleteCurrency ~ response:", response)
+        currencies.value.data = currencies.value.data.filter(currency => id !== currency.id)
+        showDeleteCurrency(false)
+    } catch (err) {
+      error.value = err?.response?.data ? err?.response?.data[0] : err.message;
     }
 }
 </script>
@@ -79,11 +97,10 @@ const onNewCurrency = async (form) => {
             v-for="currency in currencies.data"
             :key="currency.id"
             :currency="currency"
-            
+            :showDeleteCurrency="showDeleteCurrency"
           />
         </tbody>
       </template>
-
     </v-table>
     <template v-if="currencies?.data">
       <div class="text-center">
@@ -95,23 +112,8 @@ const onNewCurrency = async (form) => {
         ></v-pagination>
       </div>
     </template>
-    <v-snackbar
-          v-model="error"
-          :timeout="5000"
-          color="red-darken-4"
-          variant="tonal"
-      >
-          {{error && error}}
-          <template v-slot:actions>
-              <v-btn
-                  color="pink"
-                  variant="text"
-                  @click="error = null"
-              >
-                  <v-icon icon="mdi-window-close" title="Fermer"></v-icon>
-              </v-btn>
-          </template>
-      </v-snackbar>
+    <Alert type="error" :content="error"/>
+    <DeleteCurrency :onDeleteCurrency="onDeleteCurrency" :currencyToDelete="currencyToDelete" :showDeleteCurrency="showDeleteCurrency"/>
   </v-container>
 
 </template>
