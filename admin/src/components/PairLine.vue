@@ -9,6 +9,7 @@ const isEditing = ref(false);
 const currencies = ref(null);
 const state = ref({success : null, isLoading : false, error : null, snackbar: false});
 
+
 const form = ref({
     newFromCurrency: pair.value.from_currency.id,
     newToCurrency: pair.value.to_currency.id,

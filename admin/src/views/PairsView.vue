@@ -1,7 +1,7 @@
 <script setup>
 import CurrencyLine from "@/components/CurrencyLine.vue";
 import PairLine from "@/components/PairLine.vue";
-import NewCurrency, { dialog } from "@/components/NewCurrency.vue";
+import NewPair, { dialog } from "@/components/NewPair.vue";
 import { usePairs } from "@/composables/pairs";
 import { addPair, deletePair, updatePair } from "@/services/api";
 import router from "@/router";
@@ -26,27 +26,28 @@ const onPageChange = (pageNumber) => {
   page.value = pageNumber
 }
 
-// const onNewPair = async (form) => {
-//     state.value.isLoading = true;
+const onNewPair = async (form) => {
+    state.value.isLoading = true;
 
-//     const data = {
-//         name: form.name,
-//         code: form.code
-//     }
+    const data = {
+        from_id: form.newFromCurrency,
+        to_id: form.newToCurrency,
+        currency_rate: form.newCurrencyRate
+    }
 
-//     try {
-//       const response = await addPair(data);
-//       pairs.value.data = [response, ...pairs.value.data]
-//       state.value.snackbar = "success"
-//       state.value.success = `La devise ${response.name} (${response.code}) a été ajoutée`;
-//       dialog.value = false;
-//     } catch (err) {
-//       state.value.snackbar = "error"
-//       state.value.error = err?.response?.data ? err?.response?.data[0] : err.message;
-//     } finally {
-//       state.value.isLoading = false;
-//     }
-// }
+    try {
+      const response = await addPair(data);
+      pairs.value.data = [response, ...pairs.value.data]
+      state.value.snackbar = "success"
+      state.value.success = `La paire a été ajoutée`;
+      dialog.value = false;
+    } catch (err) {
+      state.value.snackbar = "error"
+      state.value.error = err?.response?.data ? err?.response?.data[0] : err.message;
+    } finally {
+      state.value.isLoading = false;
+    }
+}
 
 // const showDeletePair = (pair = null) => {
 //   pairToDelete.value = pair
@@ -91,7 +92,7 @@ const onUpdateButton = async (form, pair, edit, pairStatus) => {
 }
 
 const formRules = {
-  required: (value) => value?.trim() !== "" ? true : "Champ obligatoire",
+  required: (value) => value ? true : "Champ obligatoire",
   currencyRateFormat: (value) => Number(value) == value ? true : "Le taux de change doit être nombre",
 }
 
@@ -103,7 +104,7 @@ const formRules = {
     <h3 class="font-weight-light">
       Paires
     </h3>
-    <!-- <NewCurrency :onNewPair="onNewPair" :rules="formRules"/> -->
+    <NewPair :onNewPair="onNewPair" :rules="formRules"/>
     <v-table
       fixed-header
       height="70vh"

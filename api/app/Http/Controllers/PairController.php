@@ -35,9 +35,55 @@ class PairController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StorePairRequest $request)
+    public function store(Request $request)
     {
-        //
+        try {
+
+            $validator = Validator::make(
+                $request->all(),
+                [
+                    'from_id' => 'required',
+                    'to_id' => 'required',
+                    'currency_rate' => 'required',
+                ],
+                [
+                    'from_id.required' => 'Le champ "Source" est obligatoire.',
+                    'to_id.required' => 'Le champ "Destinataire" est obligatoire.',
+                    'currency_rate.required' => 'Le champ "Taux de change" est obligatoire.',
+                ]
+            );
+            
+            if ($validator->fails()) {
+                $errors = array_values($validator->errors()->toArray())[0];
+                return response()->json($errors, 405);
+            }
+
+            $fromId = $request->from_id;
+            $toId = $request->to_id;
+            $currencyRate = $request->currency_rate;
+
+            // Recherchez d'abord la paire en fonction du form_id et du to_id
+            $existingPair = Pair::where('from_id', $fromId)
+                                        ->where('to_id', strtoupper($toId))
+                                        ->first();
+
+            if ($existingPair) {
+                // Une paire avec le même form_id et le même to_id existe déjà
+                return response()->json(["La paire existe déjà."], 405);
+            }
+
+            $newPair = Pair::create([
+                "from_id" => $fromId,
+                "to_id" => $toId,
+                "currency_rate" => $currencyRate,
+            ]);
+
+            $newPair = Pair::with(["fromCurrency", "toCurrency"])->where('id', $newPair->id)->first();
+
+            return response()->json($newPair, 200);
+        } catch (\Throwable $th) {
+            return response($th->getMessage(), $th->getCode());
+        }
     }
 
     /**
