@@ -5,17 +5,12 @@ export const dialog = ref(false);
 
 import { ref } from 'vue';
 
-const { onNewCurrency } = defineProps(['onNewCurrency']);
+const { onNewCurrency, rules } = defineProps(['onNewCurrency', 'rules']);
 
 const form = ref({
   name: null,
   code: null
 });
-
-const rules = {
-  required: (value) => value?.trim() !== "" ? true : "Champ obligatoire",
-  codeFormat: (value) => value?.trim().length === 3 ? true : "Le code doit contenir 3 caractères",
-}
 
 </script>
 <template>

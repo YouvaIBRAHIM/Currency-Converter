@@ -1,50 +1,20 @@
 <script setup>
 import { toRefs, ref } from 'vue';
-import { updateCurrency } from "@/services/api";
-import Alert from "@/components/Alert.vue";
 
 
-const props = defineProps(['currency', 'showDeleteCurrency']);
+const props = defineProps(['currency', 'onUpdateButton', 'showDeleteCurrency', "rules", "state"]);
 
 const { currency } = toRefs(props);
 const isEditing = ref(false)
 
 const form = ref({name : currency.value.name, code: currency.value.code});
-const currencyStatus = ref({success : null, isLoading : false, error : null});
+const currencyStatus = ref({isLoading : false});
 
-const rules = {
-  required: (value) => value?.trim() !== "" ? true : "Champ obligatoire",
-  codeFormat: (value) => value?.trim().length === 3 ? true : "Le code doit contenir 3 caractères",
+const edit = (state = false) => {
+    isEditing.value = state
 }
 
-const onEditButton = () => {
-    isEditing.value = true
-}
 
-const onCancelButton = () => {
-    isEditing.value = false
-}
-
-const onUpdateButton = async (id) => {
-    currencyStatus.value.isLoading = true;
-
-    const data = {
-        name: form.value.name,
-        code: form.value.code
-    }
-
-    try {
-        const response = await updateCurrency(id, data);
-        currencyStatus.value.success = response;
-        currency.value.name = data.name;
-        currency.value.code = data.code;
-        isEditing.value = false
-    } catch (err) {
-        currencyStatus.value.error = err?.response?.data ? err?.response?.data[0] : err.message;
-    } finally {
-        currencyStatus.value.isLoading = false;
-    }
-}
 </script>
 
 <template>
@@ -64,7 +34,7 @@ const onUpdateButton = async (id) => {
                     type="text"
                     variant="filled"
                     v-model="form.name"
-                    :rules="[rules.required]"
+                    :rules="[props.rules.required]"
                 ></v-text-field>
             </td>
             <td class="mb-5">
@@ -75,7 +45,7 @@ const onUpdateButton = async (id) => {
                     type="text"
                     variant="filled"
                     v-model="form.code"
-                    :rules="[rules.codeFormat]"
+                    :rules="[props.rules.codeFormat]"
                 ></v-text-field>
             </td>
         </template>
@@ -86,7 +56,7 @@ const onUpdateButton = async (id) => {
         <td>
             <div class="actions" v-if="isEditing">
                 <div class="pa-2 action">
-                    <v-btn color="indigo-darken-1" @click="() => onUpdateButton(currency.id)">
+                    <v-btn color="indigo-darken-1" @click="() => props.onUpdateButton(form, currency, edit, currencyStatus)">
                         <v-icon icon="mdi-content-save" title="Enregistrer"></v-icon>
                         <v-tooltip
                             activator="parent"
@@ -95,7 +65,7 @@ const onUpdateButton = async (id) => {
                     </v-btn>
                 </div>
                 <div class="pa-2 action">
-                    <v-btn color="yellow-darken-1"  @click="onCancelButton">
+                    <v-btn color="yellow-darken-1"  @click="() => edit(false)">
                         <v-icon icon="mdi-window-close" title="Annuler"></v-icon>
                         <v-tooltip
                             activator="parent"
@@ -106,7 +76,7 @@ const onUpdateButton = async (id) => {
             </div>
             <div class="actions" v-else>
                 <div class="pa-2 action">
-                    <v-btn color="indigo-darken-1" @click="onEditButton">
+                    <v-btn color="indigo-darken-1" @click="() => edit(true)">
                         <v-icon icon="mdi-pencil" title="Modifier"></v-icon>
                         <v-tooltip
                             activator="parent"
@@ -125,9 +95,6 @@ const onUpdateButton = async (id) => {
                 </div>
             </div>
         </td>
-
-        <Alert type="success" :content="currencyStatus.success"/>
-        <Alert type="error" :content="currencyStatus.error"/>
 
     </tr>
 </template>

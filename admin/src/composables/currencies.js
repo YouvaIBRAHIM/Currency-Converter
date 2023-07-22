@@ -1,17 +1,17 @@
 import { ref } from "vue";
 import { getCurrencies } from "@/services/api";
 
-export const useCurrencies = (currencies, isLoading, error, page) => {
+export const useCurrencies = (currencies, state, page) => {
 
     const fetchData = async () => {
-        isLoading.value = true;
+        state.value.isLoading = true;
         try {
             const response = await getCurrencies(page);
             currencies.value = response;
         } catch (err) {
-            error.value = err?.response?.data ? err?.response?.data[0] : err.message;
+            state.value.error = err?.response?.data ? err?.response?.data[0] : err.message;
         } finally {
-            isLoading.value = false;
+            state.value.isLoading = false;
         }
     }
 

@@ -3,7 +3,6 @@ import { toRefs } from 'vue';
 const props = defineProps(['onDeleteCurrency', 'currencyToDelete', 'showDeleteCurrency'])
 const { showDeleteCurrency, onDeleteCurrency } = toRefs(props);
 
-
 </script>
 <template>
     <v-row justify="center">

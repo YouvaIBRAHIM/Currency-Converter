@@ -1,10 +1,11 @@
 <script setup>
 import { toRef } from 'vue';
-import { ref, watch } from 'vue';
+import { ref, watch, computed } from 'vue';
 
 const props = defineProps(["type", "content"])
 
-const show = ref(false)
+const show = computed(() => props.content)
+console.log("🚀 ~ file: Alert.vue:8 ~ show:", show)
 
 
 </script>
