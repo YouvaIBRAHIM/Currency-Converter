@@ -2,7 +2,6 @@ import axiosInstance from "@/services/axios";
 
 //Devises
 
-
 export const getCurrencies = async (page) => {
     const url = page ? `/api/currencies?page=${page}` : `/api/currencies/all`;
     const response = await axiosInstance.get(url)
@@ -43,5 +42,11 @@ export const updatePair = async (id, data) => {
 
 export const deletePair = async (id) => {
     const response = await axiosInstance.delete(`/api/pairs/${id}`)
+    return response.data;
+}
+
+//global
+export const getRequest = async (url) => {
+    const response = await axiosInstance.get(url)
     return response.data;
 }

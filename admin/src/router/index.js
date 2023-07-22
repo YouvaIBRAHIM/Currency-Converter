@@ -9,8 +9,13 @@ import { store } from "@/services/auth.js";
 
 const routes = [
   {
-    path: "/admin",
+    path: "/",
     name: "Home",
+    component: HomeView
+  },
+  {
+    path: "/admin",
+    name: "Admin",
     component: HomeView,
     meta: {
       middleware: "auth",

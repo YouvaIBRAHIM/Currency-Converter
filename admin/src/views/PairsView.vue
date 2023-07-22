@@ -62,7 +62,6 @@ const onDeletePair = async(id) => {
       showDeletePair(false)
     } catch (err) {
       state.value.snackbar = "error"
-
       state.value.error = err?.response?.data ? err?.response?.data[0] : err.message;
     } 
 }
