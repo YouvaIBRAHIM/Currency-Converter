@@ -2,7 +2,7 @@
 import { toRefs, ref } from 'vue';
 import { useCurrencies } from "@/composables/currencies";
 import TableSkeletonLoader from "@/components/TableSkeletonLoader.vue";
-const props = defineProps(['pair', 'onUpdateButton', 'showDeleteCurrency', "rules", "state"]);
+const props = defineProps(['pair', 'onUpdateButton', 'showDeletePair', "rules", "state"]);
 
 const { pair } = toRefs(props);
 const isEditing = ref(false);
@@ -124,7 +124,7 @@ const onUpdateButton = async (form, pair, edit, pairStatus) => {
                     </v-btn>
                 </div>
                 <div class="pa-2 action">
-                    <v-btn color="red-darken-1" @click="() => props.showDeleteCurrency(pair)">
+                    <v-btn color="red-darken-1" @click="() => props.showDeletePair(pair)">
                         <v-icon icon="mdi-delete" title="Supprimer"></v-icon>
                         <v-tooltip
                             activator="parent"

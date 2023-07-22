@@ -6,7 +6,7 @@ import { usePairs } from "@/composables/pairs";
 import { addPair, deletePair, updatePair } from "@/services/api";
 import router from "@/router";
 import { ref, watch } from "vue";
-import DeleteCurrency from "@/components/DeleteCurrency.vue";
+import DeletePair from "@/components/DeletePair.vue";
 import TableSkeletonLoader from "@/components/TableSkeletonLoader.vue";
 
 const page = ref(router?.currentRoute?.value?.query?.page ?? 1)
@@ -49,23 +49,23 @@ const onNewPair = async (form) => {
     }
 }
 
-// const showDeletePair = (pair = null) => {
-//   pairToDelete.value = pair
-// }
+const showDeletePair = (pair = null) => {
+  pairToDelete.value = pair
+}
 
-// const onDeletePair = async(id) => {
-//     try {
-//       const response = await deletePair(id)
-//       state.value.success = response;
-//       pairs.value.data = pairs.value.data.filter(pair => id !== pair.id)
-//       state.value.snackbar = "success"
-//       showDeletePair(false)
-//     } catch (err) {
-//       state.value.snackbar = "error"
+const onDeletePair = async(id) => {
+    try {
+      const response = await deletePair(id)
+      state.value.success = response;
+      pairs.value.data = pairs.value.data.filter(pair => id !== pair.id)
+      state.value.snackbar = "success"
+      showDeletePair(false)
+    } catch (err) {
+      state.value.snackbar = "error"
 
-//       state.value.error = err?.response?.data ? err?.response?.data[0] : err.message;
-//     } 
-// }
+      state.value.error = err?.response?.data ? err?.response?.data[0] : err.message;
+    } 
+}
 
 const onUpdateButton = async (form, pair, edit, pairStatus) => {
     pairStatus.isLoading = true;
@@ -155,7 +155,7 @@ const formRules = {
         ></v-pagination>
       </div>
     </template>
-    <!-- <DeleteCurrency :onDeletePair="onDeletePair" :pairToDelete="pairToDelete" :showDeletePair="showDeletePair"/> -->
+    <DeletePair :onDeletePair="onDeletePair" :pairToDelete="pairToDelete" :showDeletePair="showDeletePair"/>
 
     <v-snackbar 
       v-model="state.snackbar" 

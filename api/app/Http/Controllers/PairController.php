@@ -159,6 +159,11 @@ class PairController extends Controller
      */
     public function destroy(Pair $pair)
     {
-        //
+        try {
+            $pair->delete();
+            return response("Paire supprimée", 200);
+        } catch (\Throwable $th) {
+            return response($th->getMessage(), $th->getCode());
+        }
     }
 }

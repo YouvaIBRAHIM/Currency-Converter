@@ -1,16 +1,16 @@
 <script setup>
 import { toRefs } from 'vue';
-const props = defineProps(['onDeleteCurrency', 'currencyToDelete', 'showDeleteCurrency'])
-const { showDeleteCurrency, onDeleteCurrency } = toRefs(props);
+const props = defineProps(['onDeletePair', 'pairToDelete', 'showDeletePair'])
+const { showDeletePair, onDeletePair } = toRefs(props);
 
 </script>
 <template>
     <v-row justify="center">
       <v-dialog
-        v-model="props.currencyToDelete"
+        v-model="props.pairToDelete"
         persistent
         min-width="300"
-        max-width="550"
+        max-width="550"      
       >
         <v-card>
           <v-card-title>
@@ -18,8 +18,8 @@ const { showDeleteCurrency, onDeleteCurrency } = toRefs(props);
           </v-card-title>
           <v-card-text>
             <v-container>
-                <p v-if="props.currencyToDelete?.name">
-                    Voulez-vous vraiment supprimer le {{ props.currencyToDelete.name }} ({{ props.currencyToDelete.code }}) ?
+                <p v-if="props.pairToDelete">
+                  Voulez-vous vraiment supprimer cette paire ({{ props.pairToDelete.from_currency.name }} => {{ props.pairToDelete.to_currency.name }}) ?
                 </p>
             </v-container>
             <small>Cette action est irréversible</small>
@@ -29,14 +29,14 @@ const { showDeleteCurrency, onDeleteCurrency } = toRefs(props);
             <v-btn
               color="blue-darken-1"
               variant="text"
-              @click="() => showDeleteCurrency(false)"
+              @click="() => showDeletePair(false)"
             >
               Fermer
             </v-btn>
             <v-btn
               color="red-darken-1"
               variant="text"
-              @click="() => onDeleteCurrency(props.currencyToDelete?.id)"
+              @click="() => onDeletePair(props.pairToDelete?.id)"
             >
               Supprimer
             </v-btn>
