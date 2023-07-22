@@ -9,6 +9,7 @@ const randomColor = Math.floor(Math.random()*16777215).toString(16);
         expand-on-hover
         rail
         color="#22223b"
+        :permanent="true"
       >
         <v-list>
           <v-list-item
@@ -23,7 +24,7 @@ const randomColor = Math.floor(Math.random()*16777215).toString(16);
 
         <v-list  nav>
           <v-list-item base-color="#ffffff" prepend-icon="mdi-currency-eur" title="Devises" value="Currencies" to="/admin/currencies"></v-list-item>
-          <v-list-item base-color="#ffffff" prepend-icon="mdi-swap-horizontal" title="Pairs" value="Pairs" to="/admin/pairs"></v-list-item>
+          <v-list-item base-color="#ffffff" prepend-icon="mdi-swap-horizontal" title="Paires" value="Pairs" to="/admin/pairs"></v-list-item>
         </v-list>
         <template v-slot:append>
           <div class="pa-2">

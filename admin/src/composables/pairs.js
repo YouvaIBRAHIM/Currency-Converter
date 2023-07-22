@@ -1,12 +1,12 @@
-import { getCurrencies } from "@/services/api";
+import { getPairs } from "@/services/api";
 
-export const useCurrencies = (currencies, state, page) => {
+export const usePairs = (pairs, state, page) => {
 
     const fetchData = async () => {
         state.value.isLoading = true;
         try {
-            const response = await getCurrencies(page);
-            currencies.value = response;
+            const response = await getPairs(page);
+            pairs.value = response;
         } catch (err) {
             state.value.snackbar = true
             state.value.error = err?.response?.data ? err?.response?.data[0] : err.message;

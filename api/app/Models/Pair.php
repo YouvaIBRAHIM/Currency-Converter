@@ -11,13 +11,21 @@ class Pair extends Model
 {
     use HasFactory;
 
-    public function currency() : BelongsTo
+    protected $fillable = ['from_id', 'to_id', 'currency_rate'];
+
+    public function fromCurrency() : BelongsTo
     {
-        return $this->belongsTo(Currency::class, 'id');
+        return $this->belongsTo(Currency::class, 'from_id');
+    }
+
+    public function toCurrency() : BelongsTo
+    {
+        return $this->belongsTo(Currency::class, 'to_id');
     }
 
     public function count() : HasOne
     {
         return $this->hasOne(Converter::class, 'pair_id');
     }
+    
 }

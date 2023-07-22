@@ -12,10 +12,20 @@ class CurrencyController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index()
     {
         try {
             $currencies = Currency::orderBy('created_at', 'desc')->paginate(5);
+            return response()->json($currencies, 200);
+        } catch (\Throwable $th) {
+            return response()->json(["Oups ! Nous n'avons pas pu récupérer les données."], 500);
+        }
+    }
+
+    public function getAllCurrencies() 
+    {
+        try {
+            $currencies = Currency::orderBy('created_at', 'desc')->get();
 
             return response()->json($currencies, 200);
         } catch (\Throwable $th) {
@@ -57,10 +67,12 @@ class CurrencyController extends Controller
                 return response()->json($errors, 405);
             }
 
+            $name = $request->name;
+            $code = $request->code;
 
             // Recherchez d'abord la devise en fonction du nom et du code
-            $existingCurrency = Currency::where('name', $request->name)
-                                        ->orWhere('code', strtoupper($request->code))
+            $existingCurrency = Currency::where('name', $name)
+                                        ->orWhere('code', strtoupper($code))
                                         ->first();
 
             if ($existingCurrency) {
@@ -111,7 +123,7 @@ class CurrencyController extends Controller
                     'code' => 'required|string|min:3|max:3',
                 ],
                 [
-                    'name.reuired' => 'Le champ "Nom" est obligatoire.',
+                    'name.required' => 'Le champ "Nom" est obligatoire.',
                     'code.required' => 'Le champ "Code" est obligatoire.',
                     'code.min' => 'Le champ "Code" doit contenir 3 caractères.',
                     'code.max' => 'Le champ "Code" doit contenir 3 caractères.',
@@ -127,8 +139,8 @@ class CurrencyController extends Controller
             $code = $request->code;
 
             // Recherchez d'abord la devise en fonction du nom et du code
-            $existingCurrency = Currency::where('name', $request->name)
-                                        ->orWhere('code', strtoupper($request->code))
+            $existingCurrency = Currency::where('name', $name)
+                                        ->orWhere('code', strtoupper($code))
                                         ->first();
 
             if ($existingCurrency && $existingCurrency->id !== $currency->id) {

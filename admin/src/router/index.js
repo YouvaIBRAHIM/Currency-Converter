@@ -3,6 +3,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import LoginView from "@/views/LoginView.vue";
 import HomeView from "@/views/HomeView.vue";
 import CurrenciesView from "@/views/CurrenciesView.vue";
+import PairsView from "@/views/PairsView.vue";
 import { store } from "@/services/auth.js";
 
 
@@ -34,7 +35,7 @@ const routes = [
   {
     path: "/admin/pairs",
     name: "Pairs",
-    component: HomeView,
+    component: PairsView,
     meta: {
       middleware: "auth",
     }

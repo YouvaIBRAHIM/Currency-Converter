@@ -6,6 +6,7 @@ import { addCurrency, deleteCurrency, updateCurrency } from "@/services/api";
 import router from "@/router";
 import { ref, watch } from "vue";
 import DeleteCurrency from "@/components/DeleteCurrency.vue";
+import TableSkeletonLoader from "@/components/TableSkeletonLoader.vue";
 
 const page = ref(router?.currentRoute?.value?.query?.page ?? 1)
 const currencies = ref(null);
@@ -118,26 +119,25 @@ const formRules = {
           </th>
         </tr>
       </thead>
-      <template v-if="state.isLoading">
-        <v-skeleton-loader  v-for="n in 5" :key="n"
-          type="table-row-divider"
-          class="ma-auto"
-        />
-      </template>
-
-      <template v-else-if="currencies?.data">
-        <tbody>
+      
+      <tbody>
+        <template v-if="state.isLoading">
+          <tr v-for="n in 5" :key="n">
+            <TableSkeletonLoader cell="3"/>
+          </tr>
+        </template>
+        <template v-else-if="currencies?.data">
           <CurrencyLine
-            v-for="currency in currencies.data"
-            :key="currency.id"
-            :currency="currency"
-            :onUpdateButton="onUpdateButton"
-            :showDeleteCurrency="showDeleteCurrency"
-            :rules="formRules"
-            :state="state"
+          v-for="currency in currencies.data"
+          :key="currency.id"
+          :currency="currency"
+          :onUpdateButton="onUpdateButton"
+          :showDeleteCurrency="showDeleteCurrency"
+          :rules="formRules"
+          :state="state"
           />
-        </tbody>
-      </template>
+        </template>
+      </tbody>
     </v-table>
     <template v-if="currencies?.data">
       <div class="text-center">

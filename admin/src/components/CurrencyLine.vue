@@ -101,7 +101,7 @@ const edit = (state = false) => {
 
 <style scoped>
 td{
-    min-width: 250px;
+    min-width: 200px;
 }
 .actions{
     display: flex;
