@@ -1,7 +1,7 @@
 <script setup>
 import JsonViewer from '@/components/public/JsonViewer.vue';
 
-const props = defineProps([ 'description', 'onOpenDrawer'])
+const props = defineProps([ 'endpoint', 'description', 'onOpenDrawer'])
 
 </script>
 <template>
@@ -11,6 +11,7 @@ const props = defineProps([ 'description', 'onOpenDrawer'])
         <v-toolbar-title>
             {{ props.description?.title }}
         </v-toolbar-title>
+        
         <div class="ma-2 d-flex align-center">
             <v-chip
                 class="ma-2"
@@ -22,53 +23,63 @@ const props = defineProps([ 'description', 'onOpenDrawer'])
             :
             <v-code>
                 <p class="text-decoration-underline endpoint"  @click="props.onOpenDrawer">
-                    {{ props.description?.endpoint }}
+                    {{ props.endpoint }}
                 </p>
             </v-code>
         </div>
 
-        <v-chip
-            class="ma-2"
+
+        <v-container
+            v-if="props.description?.details"
+            class="bg-blue"
             color="grey-darken-1"
         >
-            Paramètres
-        </v-chip>
+            {{ props.description?.details }}
+        </v-container>
+        <v-container v-if="props.description?.params">
+            <v-chip
+                class="ma-2"
+                color="grey-darken-1"
+            >
+                Paramètres
+            </v-chip>
 
-        <v-table>
-            <thead>
-            <tr>
-                <th class="text-left">
-                    Paramètre
-                </th>
-                <th class="text-left">
-                    Type
-                </th>
-                <th class="text-left">
-                    Exigeance
-                </th>
-                <th class="text-left">
-                    Description
-                </th>
-            </tr>
-            </thead>
-            <tbody>
-                <tr  v-for="(value, key) in props.description?.params">
-                    <td>{{ key }}</td>
-                    <td class="text-no-wrap">
-                        <v-chip
-                            class="ma-2"
-                            color="grey-darken-1"
-                        >
-                            {{value.type}}
-                        </v-chip>
-                    </td>
-                    <td>{{value.requirement}}</td>
-                    <td>
-                        {{value.description}} 
-                    </td>
+            <v-table>
+                <thead>
+                <tr>
+                    <th class="text-left">
+                        Paramètre
+                    </th>
+                    <th class="text-left">
+                        Type
+                    </th>
+                    <th class="text-left">
+                        Exigeance
+                    </th>
+                    <th class="text-left">
+                        Description
+                    </th>
                 </tr>
-            </tbody>
-        </v-table>
+                </thead>
+                <tbody>
+                    <tr  v-for="(value, key) in props.description?.params">
+                        <td>{{ key }}</td>
+                        <td class="text-no-wrap">
+                            <v-chip
+                                class="ma-2"
+                                color="grey-darken-1"
+                            >
+                                {{value.type}}
+                            </v-chip>
+                        </td>
+                        <td>{{value.requirement}}</td>
+                        <td>
+                            {{value.description}} 
+                        </td>
+                    </tr>
+                </tbody>
+            </v-table>
+        </v-container>
 
         <v-chip
             class="ma-2"

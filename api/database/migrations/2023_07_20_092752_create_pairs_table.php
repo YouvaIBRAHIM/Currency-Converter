@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('from_id');
             $table->unsignedBigInteger('to_id');
-            $table->decimal('currency_rate');
+            $table->float('currency_rate');
             $table->foreign('from_id')->references('id')->on('currencies')->onDelete('cascade');
             $table->foreign('to_id')->references('id')->on('currencies')->onDelete('cascade');
             $table->timestamps();

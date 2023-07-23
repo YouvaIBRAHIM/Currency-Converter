@@ -87,26 +87,26 @@ class PairController extends Controller
     }
 
 
-    public function convert($from, $to, $howMuch)
+    public function convert($from, $to, $amount)
     {
         try {
             
             $validator = Validator::make(
-                ["from" => $from, "to" => $to, "howMuch" => $howMuch],
+                ["from" => $from, "to" => $to, "amount" => $amount],
                 [
                     'from' => 'required|string|min:3|max:3',
                     'to' => 'required|string|min:3|max:3',
-                    'howMuch' => 'required|numeric',
+                    'amount' => 'required|numeric',
                 ],
                 [
                     'from.required' => 'Le champ "from" est obligatoire.',
                     'to.required' => 'Le champ "to" est obligatoire.',
-                    'howMuch.required' => 'Le champ "howMuch" est obligatoire.',
+                    'amount.required' => 'Le champ "amount" est obligatoire.',
                     'from.min' => 'Le champ "from" doit contenir 3 caractères.',
                     'from.max' => 'Le champ "from" doit contenir 3 caractères.',
                     'to.min' => 'Le champ "to" doit contenir 3 caractères.',
                     'to.max' => 'Le champ "to" doit contenir 3 caractères.',
-                    'howMuch.numeric' => 'Le champ "howMuch" doit être numérique.',
+                    'amount.numeric' => 'Le champ "amount" doit être numérique.',
                 ]
             );
             
@@ -118,21 +118,30 @@ class PairController extends Controller
             }
     
             // Recherchez la paire de devises correspondante en utilisant les relations définies dans les modèles
-            $paire = Pair::whereHas('from_id', function ($query, $from) {
+            $pair = Pair::with(["fromCurrency", "toCurrency", "count"])
+            ->whereHas('fromCurrency', function ($query) use ($from) {
                 $query->where('code', $from);
             })
-            ->whereHas('toCurrency', function ($query, $to) {
+            ->whereHas('toCurrency', function ($query) use ($to) {
                 $query->where('code', $to);
             })
             ->first();
 
-            return response()->json($paire, 405);
+            if (!$pair) {
+                return response()->json([
+                    "message" => "Paire introuvable"
+                ], 404);
+            }
+
+            $pair->amount = floatval($amount);
+
+            $pair->conversion = floatval(number_format($pair->currency_rate * $amount, 2));
+            
+            return response()->json($pair, 200);
 
         } catch (\Throwable $th) {
-            return response($th->getMessage(), $th->getCode());
+            return response($th->getMessage());
         }
-
-
     }
 
     /**

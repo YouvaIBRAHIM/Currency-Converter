@@ -1,8 +1,8 @@
 export const api = {
-    "/api/currencies" : {
-      "endpoint": "/api/currencies",
+    "/currencies" : {
+      "endpoint": "/currencies",
       "title": "Récupérer les devises disponibles",
-      "details": "Récupérer les devises disponibles",
+      "details": null,
       "params": {
         "page": {
           "type": "string",
@@ -164,10 +164,10 @@ export const api = {
         total: 5
       }
     },
-    "/api/pairs" : {
-      "endpoint": "/api/pairs",
+    "/pairs" : {
+      "endpoint": "/pairs",
       "title": "Récupérer les paires disponibles",
-      "details": "Récupérer les devises disponibles",
+      "details": null,
       "params": {
         "page": {
           "type": "string",
@@ -524,5 +524,164 @@ export const api = {
         to: 5,
         total: 12
       }
-    }
+    },
+    "/pairs/{from}/{to}/{amount}" : {
+        "endpoint": "/pairs/EUR/USD/2.2",
+        "title": "Faire une conversion",
+        "details": "L'API prend trois paramètres en entrée, effectue le calcul de conversion en utilisant les taux de change actuels entre les deux devises spécifiées, puis renvoie le montant équivalent dans la devise cible.",
+        "params": {
+            "from": {
+              "type": "string",
+              "requirement": "obligatoire",
+              "description": "Il s'agit du code de la devise source à partir de laquelle vous souhaitez effectuer la conversion. Par exemple, si vous souhaitez convertir des dollars américains en euros, vous devrez spécifier \"USD\" (code pour le dollar américain) dans ce paramètre.",
+            },
+            "to": {
+                "type": "string",
+                "requirement": "obligatoire",
+                "description": "C'est le code de la devise cible vers laquelle vous souhaitez effectuer la conversion. Par exemple, si vous souhaitez convertir des dollars américains en euros, vous devrez spécifier \"EUR\" (code pour l'euro) dans ce paramètre.",
+            },
+            "amount": {
+                "type": "integer | float",
+                "requirement": "obligatoire",
+                "description": "C'est le montant que vous souhaitez convertir. Par exemple, si vous voulez convertir 100 dollars américains en euros, vous devrez spécifier \"100\" dans ce paramètre.",
+            }
+        },
+        "data": {
+            "id": {
+              "type": "number (integer)",
+              "description": "L'identifiant unique de l'objet."
+            },
+            "from_id": {
+              "type": "number (integer)",
+              "description": "L'identifiant de la devise de départ de la conversion."
+            },
+            "to_id": {
+              "type": "number (integer)",
+              "description": "L'identifiant de la devise d'arrivée de la conversion."
+            },
+            "currency_rate": {
+              "type": "number (float)",
+              "description": "Le taux de change entre les devises de la conversion."
+            },
+            "created_at": {
+              "type": "string (format: ISO 8601)",
+              "description": "La date et l'heure de création de l'objet."
+            },
+            "updated_at": {
+              "type": "string (format: ISO 8601)",
+              "description": "La date et l'heure de la dernière mise à jour de l'objet."
+            },
+            "amount": {
+              "type": "number (float)",
+              "description": "La quantité de la devise de départ à convertir."
+            },
+            "conversion": {
+              "type": "number (float)",
+              "description": "Le résultat de la conversion, soit la quantité de la devise d'arrivée obtenue après la conversion."
+            },
+            "from_currency": {
+              "type": "object",
+              "description": "L'objet représentant la devise de départ de la conversion avec ses détails."
+            },
+            "from_currency.id": {
+              "type": "number (integer)",
+              "description": "L'identifiant unique de la devise de départ."
+            },
+            "from_currency.name": {
+              "type": "string",
+              "description": "Le nom de la devise de départ."
+            },
+            "from_currency.code": {
+              "type": "string",
+              "description": "Le code de la devise de départ (ex: USD, EUR, etc.)."
+            },
+            "from_currency.created_at": {
+              "type": "string (format: ISO 8601)",
+              "description": "La date et l'heure de création de la devise de départ."
+            },
+            "from_currency.updated_at": {
+              "type": "string (format: ISO 8601)",
+              "description": "La date et l'heure de la dernière mise à jour de la devise de départ."
+            },
+            "to_currency": {
+              "type": "object",
+              "description": "L'objet représentant la devise d'arrivée de la conversion avec ses détails."
+            },
+            "to_currency.id": {
+              "type": "number (integer)",
+              "description": "L'identifiant unique de la devise d'arrivée."
+            },
+            "to_currency.name": {
+              "type": "string",
+              "description": "Le nom de la devise d'arrivée."
+            },
+            "to_currency.code": {
+              "type": "string",
+              "description": "Le code de la devise d'arrivée (ex: USD, EUR, etc.)."
+            },
+            "to_currency.created_at": {
+              "type": "string (format: ISO 8601)",
+              "description": "La date et l'heure de création de la devise d'arrivée."
+            },
+            "to_currency.updated_at": {
+              "type": "string (format: ISO 8601)",
+              "description": "La date et l'heure de la dernière mise à jour de la devise d'arrivée."
+            },
+            "count": {
+              "type": "object",
+              "description": "L'objet représentant un compteur associé à la conversion."
+            },
+            "count.id": {
+              "type": "number (integer)",
+              "description": "L'identifiant unique du compteur."
+            },
+            "count.pair_id": {
+              "type": "number (integer)",
+              "description": "L'identifiant de la conversion associée au compteur."
+            },
+            "count.count": {
+              "type": "number (integer)",
+              "description": "Le compteur de la conversion."
+            },
+            "count.created_at": {
+              "type": "string (format: ISO 8601)",
+              "description": "La date et l'heure de création du compteur."
+            },
+            "count.updated_at": {
+              "type": "string (format: ISO 8601)",
+              "description": "La date et l'heure de la dernière mise à jour du compteur."
+            }
+        },
+        "example": {
+            id: 4,
+            from_id: 2,
+            to_id: 1,
+            currency_rate: 5.9,
+            created_at: "2023-07-23T17:12:50.000000Z",
+            updated_at: "2023-07-23T17:12:50.000000Z",
+            amount: 2,
+            conversion: 11.8,
+            from_currency: {
+              id: 2,
+              name: "Euro",
+              code: "EUR",
+              created_at: "2023-07-23T17:12:50.000000Z",
+              updated_at: "2023-07-23T17:12:50.000000Z"
+            },
+            to_currency: {
+              id: 1,
+              name: "Dollar Américain",
+              code: "USD",
+              created_at: "2023-07-23T17:12:50.000000Z",
+              updated_at: "2023-07-23T17:12:50.000000Z"
+            },
+            count: {
+              id: 4,
+              pair_id: 4,
+              count: 0,
+              created_at: "2023-07-23T17:12:50.000000Z",
+              updated_at: "2023-07-23T17:12:50.000000Z"
+            }
+        }
+    },
 }

@@ -19,7 +19,7 @@ pre {
 	padding: 15px;
     font-size: 12px;
 	box-shadow: 0 0 10px black;
-    height: 100%!important;
+    max-height: 75vh!important;
     overflow: auto;
     margin: 10px;
 }
@@ -35,6 +35,5 @@ pre .json-string {
 pre .json-boolean {
 	color: #5b9bd2!important;
 }
-
 
 </style>

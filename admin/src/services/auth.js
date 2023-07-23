@@ -12,7 +12,7 @@ export const store = reactive({
     async getUser() {
         await this.getToken();
         try {
-            const data = await axiosInstance.get("/api/user");
+            const data = await axiosInstance.get("/user");
             if (data) {
                 this.user = data.data
                 return true

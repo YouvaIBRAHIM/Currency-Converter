@@ -3,7 +3,8 @@ import { ref } from 'vue';
 import ApiTester from "@/components/public/ApiTester.vue";
 import EndpointDetails from '@/components/public/EndpointDetails.vue';
 import { api } from "@/composables/api";
-const drawer = ref(true);
+
+const drawer = ref(false);
 
 const request = ref({
   endpoint: "/"
@@ -49,8 +50,8 @@ const oncloseDrawer = () => {
               <div>Whitehaven Beach</div>
             </v-card-text>
 
-            <template v-for="endpoint in api">
-              <EndpointDetails :description="endpoint"  :onOpenDrawer="() => onOpenDrawer(endpoint.endpoint)"/>    
+            <template v-for="(endpoint, key) in api" :key="key">
+              <EndpointDetails :endpoint="key" :description="endpoint"  :onOpenDrawer="() => onOpenDrawer(endpoint.endpoint)"/>    
             </template>
 
           </v-main>

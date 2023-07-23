@@ -35,3 +35,7 @@ Route::get('/currencies/{currency}', "App\Http\Controllers\CurrencyController@sh
 Route::get('/pairs', "App\Http\Controllers\PairController@index");
 Route::get('/pairs/{pair}', "App\Http\Controllers\PairController@show");
 Route::get('/pairs/{from}/{to}/{howMuch}', "App\Http\Controllers\PairController@convert");
+
+
+//ping
+Route::get('/ping', 'App\Http\Controllers\ApiController@ping');

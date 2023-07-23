@@ -3,45 +3,45 @@ import axiosInstance from "@/services/axios";
 //Devises
 
 export const getCurrencies = async (page) => {
-    const url = page ? `/api/currencies?page=${page}` : `/api/currencies/all`;
+    const url = page ? `/currencies?page=${page}` : `/currencies/all`;
     const response = await axiosInstance.get(url)
     return response.data;
 }
 
 export const addCurrency = async (data) => {
-    const response = await axiosInstance.post('/api/currencies', data)
+    const response = await axiosInstance.post('/currencies', data)
     return response.data;
 }
 
 export const updateCurrency = async (id, data) => {
-    const response = await axiosInstance.put(`/api/currencies/${id}`, data)
+    const response = await axiosInstance.put(`/currencies/${id}`, data)
     return response.data;
 }
 
 export const deleteCurrency = async (id) => {
-    const response = await axiosInstance.delete(`/api/currencies/${id}`)
+    const response = await axiosInstance.delete(`/currencies/${id}`)
     return response.data;
 }
 
 // Paires
 
 export const getPairs = async (page) => {
-    const response = await axiosInstance.get(`/api/pairs?page=${page}`)
+    const response = await axiosInstance.get(`/pairs?page=${page}`)
     return response.data;
 }
 
 export const addPair = async (data) => {
-    const response = await axiosInstance.post('/api/pairs', data)
+    const response = await axiosInstance.post('/pairs', data)
     return response.data;
 }
 
 export const updatePair = async (id, data) => {
-    const response = await axiosInstance.put(`/api/pairs/${id}`, data)
+    const response = await axiosInstance.put(`/pairs/${id}`, data)
     return response.data;
 }
 
 export const deletePair = async (id) => {
-    const response = await axiosInstance.delete(`/api/pairs/${id}`)
+    const response = await axiosInstance.delete(`/pairs/${id}`)
     return response.data;
 }
 

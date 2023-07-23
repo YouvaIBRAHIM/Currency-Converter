@@ -2,7 +2,7 @@ import axios from "axios";
 axios.defaults.withCredentials = true;
 
 const axiosInstance = axios.create({
-    baseURL: import.meta.env.VITE_API_URL,
+    baseURL: import.meta.env.VITE_API_ENDPOINT,
     withCredentials: true,
     headers: {
         Accept: 'Content-Type',
