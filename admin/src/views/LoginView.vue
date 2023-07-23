@@ -19,11 +19,14 @@ const rules = {
 
 <template>
   <div>
-    <v-img
-      class="mx-auto my-6"
-      max-width="228"
-      src="https://cdn.vuetifyjs.com/docs/images/logos/vuetify-logo-v3-slim-text-light.svg"
-    ></v-img>
+
+    <v-container class="d-flex align-center">
+      <img
+      class="mx-auto my-6 logo"
+      width="228"
+      src="/img/logo.svg"
+    />
+    </v-container>
 
     <v-card
       class="mx-auto pa-12 pb-8"
@@ -31,6 +34,14 @@ const rules = {
       max-width="448"
       rounded="lg"
     >
+    <v-alert
+      class="mb-5"
+        border="bottom"
+        border-color="error"
+        elevation="2"
+        v-if="store?.errors"
+        :text="store.errors"
+      />
       <v-form @submit.prevent="store.handleLogin(form)">
         <v-text-field
           density="compact"
@@ -42,11 +53,6 @@ const rules = {
           :rules="[rules.required, rules.isValidEmail]"
           v-model="form.email"
         ></v-text-field>
-        <v-alert
-          type="error"
-          v-if="store?.errors?.email"
-          :text="store.errors.email[0]"
-        />
 
         <v-text-field
           :append-inner-icon="!visible ? 'mdi-eye-off' : 'mdi-eye'"
@@ -61,19 +67,13 @@ const rules = {
           :rules="[rules.required]"
           v-model="form.password"
         ></v-text-field>
-
-        <v-alert
-          type="error"
-          v-if="store?.errors?.password"
-          :text="store.errors.password[0]"
-        />
         
         <v-btn block type="submit" class="mb-8" color="blue" size="large" variant="tonal">
-          Log In
+          Se connecter
         </v-btn>
       </v-form>
     </v-card>
+
   </div>
 </template>
-
 

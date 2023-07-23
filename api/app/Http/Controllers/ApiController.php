@@ -12,7 +12,11 @@ class ApiController extends Controller
     public function ping()
     {
         try {
-            return response()->json(['message' => "Pong ! Le serveur est disponible"]);
+            return response()->json([
+                "code" => 200,
+                "text" => "OK",
+                'message' => "Pong ! Le serveur est disponible"
+            ]);
         } catch (\Throwable $th) {
             return response($th->getMessage(), $th->getCode());
         }

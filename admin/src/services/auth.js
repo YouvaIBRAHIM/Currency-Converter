@@ -5,7 +5,7 @@ import axios from 'axios';
 
 export const store = reactive({
     user: null,
-    errors: [],
+    errors: null,
     status: null,
     async getToken() {
         await axios.get(import.meta.env.VITE_API_URL + "/sanctum/csrf-cookie");
@@ -23,7 +23,7 @@ export const store = reactive({
         }
     },
     async handleLogin(data) {
-        this.errors = [];
+        this.errors = null;
         await this.getToken();
 
         try {
@@ -35,18 +35,18 @@ export const store = reactive({
                 router.push("/admin")
             }
         } catch (error) {
-            console.log("🚀 ~ file: auth.js:37 ~ handleLogin ~ error:", error)
+            this.errors = error.response.status == 422 ? "Les identifiants sont incorrects" : error.response.data.message;
         }
     },
     async handleLogout() {
         try {
-            const response = await axiosInstance.post("/logout");
+            const response = await axios.post(import.meta.env.VITE_API_URL + "/logout");
             if (response) {
                 this.user = null;
                 router.push("/login")
             }
         } catch (error) {
-            console.log("🚀 ~ file: auth.js:49 ~ handleLogout ~ error:", error)
+            this.errors = error.response.data.message
         }
     },
 });

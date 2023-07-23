@@ -36,7 +36,7 @@ const oncloseDrawer = () => {
             <v-img
               class="align-end text-white"
               height="200"
-              src="/img/money_value_logo.svg"
+              src="/img/logo.svg"
               cover
             >
               <v-card-title :style="{ color: '#000000' }">Votre partenaire de conversion monétaire</v-card-title>

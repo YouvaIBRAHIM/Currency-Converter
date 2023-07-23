@@ -1,8 +1,8 @@
 <script setup>
 import { ref, watch } from "vue";
-import { store } from "@/services/auth.js";
 import { setApiConfig } from "@/services/api.js";
 import { useApiConfig  } from "@/composables/api.js";
+
 const state = ref({success : null, error : null, snackbar: false});
 const config = ref(null);
 
@@ -54,14 +54,9 @@ const onSaveButton = async () => {
         <v-switch
           v-model="form.enabled"
           hide-details
-          :label="`${form.enabled ? 'Activée' : 'Desactivée'}`"
+          :label="`${form.enabled ? 'Disponible' : 'En maintenance'}`"
         ></v-switch>
 
-        <v-alert
-          type="error"
-          v-if="store?.errors?.email"
-          :text="store.errors.email[0]"
-        />
         <v-textarea
           name="input-7-1"
           variant="filled"
@@ -71,12 +66,6 @@ const onSaveButton = async () => {
           v-model="form.maintenanceMessage"
           :rules="[rules.required]"
         ></v-textarea>
-
-        <v-alert
-          type="error"
-          v-if="store?.errors?.password"
-          :text="store.errors.password[0]"
-        />
         
         <v-btn block type="submit" class="mb-8" color="blue" size="large" variant="tonal">
           Sauvegarder

@@ -19,6 +19,7 @@ const onGetButton = async () => {
         }
         state.value.response = response.data
     } catch (error) {
+        
         const response = {
             code: error.response?.status ?? "404",
             text: error.response?.statusText ?? "Not Found"
