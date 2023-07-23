@@ -163,7 +163,6 @@ const formRules = {
       v-model="state.snackbar" 
       :timeout="5000" 
       :color="state.snackbar === 'success' ? 'teal-lighten-1' : 'pink-lighten-4'"
-      :update:modelValue="() => console.log('hell')"
       class="d-flex justify-end"
 
     >

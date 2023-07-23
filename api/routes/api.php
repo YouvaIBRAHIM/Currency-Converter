@@ -34,3 +34,4 @@ Route::get('/currencies/{currency}', "App\Http\Controllers\CurrencyController@sh
 //Paires
 Route::get('/pairs', "App\Http\Controllers\PairController@index");
 Route::get('/pairs/{pair}', "App\Http\Controllers\PairController@show");
+Route::get('/pairs/{from}/{to}/{howMuch}', "App\Http\Controllers\PairController@convert");

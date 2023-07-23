@@ -1,6 +1,8 @@
 <script setup>
 import { ref } from 'vue';
 import ApiTester from "@/components/public/ApiTester.vue";
+import EndpointDetails from '@/components/public/EndpointDetails.vue';
+import { api } from "@/composables/api";
 const drawer = ref(true);
 
 const request = ref({
@@ -12,6 +14,10 @@ const onOpenDrawer = (endpoint) => {
   drawer.value = true;
 }
 
+const oncloseDrawer = () => {
+  drawer.value = false;
+}
+
 </script>
 
 <template>
@@ -19,66 +25,54 @@ const onOpenDrawer = (endpoint) => {
           <v-navigation-drawer
             v-model="drawer"
             location="right"
-            sticky
             class="drawer"
             color="#f5f1ed"
-
           >
-            <ApiTester :request="request"/>
+            <ApiTester :request="request" :oncloseDrawer="oncloseDrawer"/>
           </v-navigation-drawer>
           <v-main class="main">
-            <v-card
-              class="mx-auto"
+
+            <v-img
+              class="align-end text-white"
+              height="200"
+              src="/img/money_value_logo.svg"
+              cover
             >
-              <v-img
-                class="align-end text-white"
-                height="200"
-                src="/img/money_value_logo.svg"
-                cover
-              >
-                <v-card-title :style="{ color: '#000000' }">Votre partenaire de conversion monétaire</v-card-title>
-              </v-img>
+              <v-card-title :style="{ color: '#000000' }">Votre partenaire de conversion monétaire</v-card-title>
+            </v-img>
 
-              <v-card-subtitle class="pt-4">
-                Dernière mise à jour : 24/07/2023
-              </v-card-subtitle>
+            <v-card-subtitle class="pt-4">
+              Dernière mise à jour : 24/07/2023
+            </v-card-subtitle>
 
-              <v-card-text>
-                <div>Whitehaven Beach</div>
+            <v-card-text>
+              <div>Whitehaven Beach</div>
+            </v-card-text>
 
-                <div>Whitsunday Island, Whitsunday Islands</div>
-              </v-card-text>
-              <v-btn
-                  color="blue-darken-4"
-                  variant="outlined"
-                  @click.stop="() => onOpenDrawer('/api/pairs')"
-                  class="mr-auto"
-                >
-                  Essayer
-                </v-btn>
-            </v-card>
+            <template v-for="endpoint in api">
+              <EndpointDetails :description="endpoint"  :onOpenDrawer="() => onOpenDrawer(endpoint.endpoint)"/>    
+            </template>
 
           </v-main>
         </v-layout>
 
-      <div class="d-flex justify-center align-center h-100">
-        <v-btn
-          color="primary"
-          @click.stop="drawer = !drawer"
-        >
-          Toggle
-        </v-btn>
-      </div>
 </template>
 
 <style>
 .main,
 .drawer{
-  min-height: 90vh;
+  min-height: 100vh;
 }
 
 .drawer{
-  min-width: 350px;
+  min-width: 550px;
+  position: fixed !important;
+}
 
+@media (max-width: 600px) {
+
+  .drawer{
+    min-width: 350px;
+  }
 }
 </style>

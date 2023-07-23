@@ -24,14 +24,6 @@ class PairController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
@@ -94,12 +86,53 @@ class PairController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Pair $pair)
+
+    public function convert($from, $to, $howMuch)
     {
-        //
+        try {
+            
+            $validator = Validator::make(
+                ["from" => $from, "to" => $to, "howMuch" => $howMuch],
+                [
+                    'from' => 'required|string|min:3|max:3',
+                    'to' => 'required|string|min:3|max:3',
+                    'howMuch' => 'required|numeric',
+                ],
+                [
+                    'from.required' => 'Le champ "from" est obligatoire.',
+                    'to.required' => 'Le champ "to" est obligatoire.',
+                    'howMuch.required' => 'Le champ "howMuch" est obligatoire.',
+                    'from.min' => 'Le champ "from" doit contenir 3 caractères.',
+                    'from.max' => 'Le champ "from" doit contenir 3 caractères.',
+                    'to.min' => 'Le champ "to" doit contenir 3 caractères.',
+                    'to.max' => 'Le champ "to" doit contenir 3 caractères.',
+                    'howMuch.numeric' => 'Le champ "howMuch" doit être numérique.',
+                ]
+            );
+            
+            if ($validator->fails()) {
+                $errors = array_values($validator->errors()->toArray())[0];
+                return response()->json([
+                    "message" => $errors
+                ], 405);
+            }
+    
+            // Recherchez la paire de devises correspondante en utilisant les relations définies dans les modèles
+            $paire = Pair::whereHas('from_id', function ($query, $from) {
+                $query->where('code', $from);
+            })
+            ->whereHas('toCurrency', function ($query, $to) {
+                $query->where('code', $to);
+            })
+            ->first();
+
+            return response()->json($paire, 405);
+
+        } catch (\Throwable $th) {
+            return response($th->getMessage(), $th->getCode());
+        }
+
+
     }
 
     /**
