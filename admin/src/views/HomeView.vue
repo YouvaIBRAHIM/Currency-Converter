@@ -3,6 +3,14 @@ import { ref } from 'vue';
 import ApiTester from "@/components/public/ApiTester.vue";
 const drawer = ref(true);
 
+const request = ref({
+  endpoint: "/"
+});
+
+const onOpenDrawer = (endpoint) => {
+  request.value.endpoint = endpoint;
+  drawer.value = true;
+}
 
 </script>
 
@@ -16,8 +24,7 @@ const drawer = ref(true);
             color="#f5f1ed"
 
           >
-            <ApiTester />
-
+            <ApiTester :request="request"/>
           </v-navigation-drawer>
           <v-main class="main">
             <v-card
@@ -26,7 +33,7 @@ const drawer = ref(true);
               <v-img
                 class="align-end text-white"
                 height="200"
-                src="../../public/img/money_value_logo.svg"
+                src="/img/money_value_logo.svg"
                 cover
               >
                 <v-card-title :style="{ color: '#000000' }">Votre partenaire de conversion monétaire</v-card-title>
@@ -41,6 +48,14 @@ const drawer = ref(true);
 
                 <div>Whitsunday Island, Whitsunday Islands</div>
               </v-card-text>
+              <v-btn
+                  color="blue-darken-4"
+                  variant="outlined"
+                  @click.stop="() => onOpenDrawer('/api/pairs')"
+                  class="mr-auto"
+                >
+                  Essayer
+                </v-btn>
             </v-card>
 
           </v-main>

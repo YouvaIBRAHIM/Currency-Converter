@@ -48,5 +48,5 @@ export const deletePair = async (id) => {
 //global
 export const getRequest = async (url) => {
     const response = await axiosInstance.get(url)
-    return response.data;
+    return response;
 }
