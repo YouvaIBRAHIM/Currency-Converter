@@ -19,7 +19,6 @@ const onGetButton = async () => {
         }
         state.value.response = response.data
     } catch (error) {
-        console.log("🚀 ~ file: ApiTester.vue:22 ~ onGetButton ~ error:", error)
         const response = {
             code: error.response?.status ?? "404",
             text: error.response?.statusText ?? "Not Found"

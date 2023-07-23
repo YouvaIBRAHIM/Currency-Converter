@@ -14,6 +14,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
+Route::get('/', function () {
+    return ['message' => "Bienvenue sur l'API MoneyValue"];
+});
+
 Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
     return $request->user();
 });
@@ -24,18 +29,28 @@ Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
 Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::resource('/currencies', "App\Http\Controllers\CurrencyController", ['except' => ['index', 'show']]);
     Route::resource('/pairs', "App\Http\Controllers\PairController", ['except' => ['index', 'show']]);
+
+
+    Route::get('/apiConfig', 'App\Http\Controllers\ApiController@getApiConfig');
+    Route::put('/apiConfig', 'App\Http\Controllers\ApiController@setApiConfig');
+    
 });
 
-//Devises
-Route::get('/currencies', "App\Http\Controllers\CurrencyController@index");
-Route::get('/currencies/all', "App\Http\Controllers\CurrencyController@getAllCurrencies");
-Route::get('/currencies/{currency}', "App\Http\Controllers\CurrencyController@show");
+// Le middleware verifie si l'api est en maintance et restreint l'accès aux non connectés
+Route::group([ 'middleware' => 'check.api'], function () {
 
-//Paires
-Route::get('/pairs', "App\Http\Controllers\PairController@index");
-Route::get('/pairs/{pair}', "App\Http\Controllers\PairController@show");
-Route::get('/pairs/{from}/{to}/{howMuch}', "App\Http\Controllers\PairController@convert");
+    //Devises
+    Route::get('/currencies', "App\Http\Controllers\CurrencyController@index");
+    Route::get('/currencies/all', "App\Http\Controllers\CurrencyController@getAllCurrencies");
+    Route::get('/currencies/{currency}', "App\Http\Controllers\CurrencyController@show");
+    
+    //Paires
+    Route::get('/pairs', "App\Http\Controllers\PairController@index");
+    Route::get('/pairs/{pair}', "App\Http\Controllers\PairController@show");
+    Route::get('/pairs/{from}/{to}/{amount}', "App\Http\Controllers\PairController@convert");
+    
+    
+    //ping
+    Route::get('/ping', 'App\Http\Controllers\ApiController@ping');
+});
 
-
-//ping
-Route::get('/ping', 'App\Http\Controllers\ApiController@ping');

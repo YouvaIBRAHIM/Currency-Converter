@@ -50,3 +50,14 @@ export const getRequest = async (url) => {
     const response = await axiosInstance.get(url)
     return response;
 }
+
+//api config
+export const getApiConfig = async () => {
+    const response = await axiosInstance.get(`/apiConfig`)
+    return response.data;
+}
+
+export const setApiConfig = async (data) => {
+    const response = await axiosInstance.put(`/apiConfig`, data)
+    return response.data;
+}

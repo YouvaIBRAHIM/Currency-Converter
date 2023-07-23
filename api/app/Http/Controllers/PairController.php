@@ -137,6 +137,12 @@ class PairController extends Controller
 
             $pair->conversion = floatval(number_format($pair->currency_rate * $amount, 2));
             
+            //incrémente le compteur de la pair
+            $pair->count->count++;
+            $pair->count()->update([
+                "count" => $pair->count->count
+            ]);
+
             return response()->json($pair, 200);
 
         } catch (\Throwable $th) {

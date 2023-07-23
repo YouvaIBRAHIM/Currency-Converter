@@ -1,3 +1,23 @@
+import { getApiConfig } from "@/services/api";
+
+export const useApiConfig = (config, state) => {
+
+    const fetchData = async () => {
+        try {
+            const response = await getApiConfig();
+            config.value = response;
+        } catch (err) {
+            state.value.snackbar = true
+            state.value.error = err?.response?.data ? err?.response?.data[0] : err.message;
+        }
+    }
+
+    fetchData();
+
+}
+
+
+
 export const api = {
     "/currencies" : {
       "endpoint": "/currencies",
