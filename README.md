@@ -16,7 +16,7 @@ Ce projet est composé de deux parties distinctes : un backend basé sur Laravel
 Installation des dépendances Laravel :
    - Accéder au dossier `api` :
      ```
-     cd api
+     cd Currency-Converter/api
      ```
 
 ## Étapes pour le dossier api :
@@ -63,7 +63,7 @@ Une fois ces étapes terminées, vous pouvez passer au dossier `admin` pour conf
 
 1. Installer les dépendances Vue.js :
    ```
-   cd admin
+   cd Currency-Converter/admin
    npm install
    ```
 
