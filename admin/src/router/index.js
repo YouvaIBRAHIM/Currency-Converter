@@ -63,6 +63,7 @@ const router = createRouter({
   routes,
 });
 
+//middleware qui vérifie si l'utilisateur a le droit d'avoir accès à la page
 router.beforeEach(async (to, from, next) => {
     if (to.meta.middleware) {
       const middleware = to.meta.middleware;

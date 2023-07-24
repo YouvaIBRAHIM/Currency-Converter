@@ -19,6 +19,7 @@ watch(page, async (newValue) => {
   useCurrenciesWithPairs(currencies, state, newValue);
 })
 
+//change de page quand on clique sur un bouton de la pagination
 const onPageChange = (pageNumber) => {
   router.push(`/admin?page=${pageNumber}`)
   page.value = pageNumber
@@ -47,7 +48,7 @@ const onPageChange = (pageNumber) => {
     </v-banner>
     <v-table
       fixed-header
-      height="70vh"
+      height="65vh"
     >
       <thead>
         <tr>

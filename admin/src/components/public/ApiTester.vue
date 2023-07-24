@@ -1,6 +1,5 @@
 <script setup>
 import { ref, toRef } from 'vue';
-import jsonColorizer from "@/services/jsonViewer.js"
 import { getRequest } from "@/services/api";
 import JsonViewer from '@/components/public/JsonViewer.vue';
 const props = defineProps(['request', 'oncloseDrawer'])
@@ -9,6 +8,7 @@ const request = toRef(props.request);
 
 const state = ref({ isLoading: false, response: {message: "Bienvenue sur l'API MoneyValue"}, status: null });
 
+// Execute une requete en methode GET de la valeur entréé dans le champ
 const onGetButton = async () => {
     state.value.isLoading = true;
     try {

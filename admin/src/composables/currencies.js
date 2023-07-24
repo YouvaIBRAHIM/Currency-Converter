@@ -1,5 +1,11 @@
 import { getCurrencies, getCurrenciesWithPairs } from "@/services/api";
 
+/**
+ * Récupére les devises
+ * @param {Object} currencies contiendra les devises
+ * @param {Object} state contiendra l'état de la récupération des devises
+ * @param {Number} page numéro de la page à récupérer
+ */
 export const useCurrencies = (currencies, state, page) => {
 
     const fetchData = async () => {
@@ -19,6 +25,12 @@ export const useCurrencies = (currencies, state, page) => {
 
 }
 
+/**
+ * Récupére les devises avec les paires associées
+ * @param {Object} currencies contiendra les devises avec les paires associées
+ * @param {Object} state contiendra l'état de la récupération des devises
+ * @param {Number} page numéro de la page à récupérer
+ */
 export const useCurrenciesWithPairs = (currencies, state, page) => {
 
     const fetchData = async () => {

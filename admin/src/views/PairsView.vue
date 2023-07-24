@@ -23,11 +23,16 @@ watch(page, async (newValue) => {
   usePairs(pairs, state, newValue);
 })
 
+//change de page quand on clique sur un bouton de la pagination
 const onPageChange = (pageNumber) => {
   router.push(`/admin/pairs?page=${pageNumber}`)
   page.value = pageNumber
 }
 
+/**
+ * Ajoute une nouvelle paire quand on soumet le formulaire
+ * @param {*} form Contient les informations saisis par l'utilisateur
+ */
 const onNewPair = async (form) => {
     state.value.isLoading = true;
 
@@ -51,10 +56,18 @@ const onNewPair = async (form) => {
     }
 }
 
+/**
+ * Permet d'afficher une modal de confirmation
+ * @param {Object} currency contient les imformations de la paire qu'on souhaite supprimer
+ */
 const showDeletePair = (pair = null) => {
   pairToDelete.value = pair
 }
 
+/**
+ * supprime une paire quand on confirme
+ * @param {id} form Contient l'id de la paire à supprimer
+ */
 const onDeletePair = async(id) => {
     try {
       const response = await deletePair(id)
@@ -68,6 +81,13 @@ const onDeletePair = async(id) => {
     } 
 }
 
+/**
+ * Met à jour une paire
+ * @param {Object} form Contient les nouvelles valeurs de la paire
+ * @param {String} pair Contient les valeurs initiales de la paire
+ * @param {Function} edit Fait disparaitre les champs
+ * @param {Object} pairStatus Determine si la modification a réussi
+ */
 const onUpdateButton = async (form, pair, edit, pairStatus) => {
     pairStatus.isLoading = true;
 

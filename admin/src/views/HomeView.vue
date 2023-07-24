@@ -13,11 +13,13 @@ const request = ref({
   endpoint: "/"
 });
 
+//affiche le composant permettant de faire des requetes en methode GET
 const onOpenDrawer = (endpoint) => {
   request.value.endpoint = endpoint;
   drawer.value = true;
 }
 
+//fait disparaitre le composant permettant de faire des requetes en methode GET
 const oncloseDrawer = () => {
   drawer.value = false;
 }

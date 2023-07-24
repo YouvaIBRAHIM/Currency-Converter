@@ -23,11 +23,16 @@ watch(page, async (newValue) => {
   useCurrencies(currencies, state, newValue);
 })
 
+//change de page quand on clique sur un bouton de la pagination
 const onPageChange = (pageNumber) => {
   router.push(`/admin/currencies?page=${pageNumber}`)
   page.value = pageNumber
 }
 
+/**
+ * Ajoute une nouvelle devise quand on soumet le formulaire
+ * @param {*} form Contient les informations saisis par l'utilisateur
+ */
 const onNewCurrency = async (form) => {
     state.value.isLoading = true;
 
@@ -50,10 +55,18 @@ const onNewCurrency = async (form) => {
     }
 }
 
+/**
+ * Permet d'afficher une modal de confirmation
+ * @param {Object} currency contient les imformations de la devise qu'on souhaite supprimer
+ */
 const showDeleteCurrency = (currency = null) => {
   currencyToDelete.value = currency
 }
 
+/**
+ * supprime une devise quand on confirme
+ * @param {id} form Contient l'id de la devise à supprimer
+ */
 const onDeleteCurrency = async(id) => {
     try {
       const response = await deleteCurrency(id)
@@ -68,6 +81,13 @@ const onDeleteCurrency = async(id) => {
     } 
 }
 
+/**
+ * Met à jour une devise
+ * @param {Object} form Contient les nouvelles valeurs de la devise
+ * @param {String} pair Contient les valeurs initiales de la devise
+ * @param {Function} edit Fait disparaitre les champs
+ * @param {Object} pairStatus Determine si la modification a réussi
+ */
 const onUpdateButton = async (form, currency, edit, currencyStatus) => {
     currencyStatus.isLoading = true;
 

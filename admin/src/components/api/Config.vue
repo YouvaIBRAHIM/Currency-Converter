@@ -22,6 +22,7 @@ const rules = {
   required: (value) => value?.trim() !== "" ? true : "Champ obligatoire",
 }
 
+// Sauvegarde les modifications de l'api
 const onSaveButton = async () => {
     const data = {
         enabled: form.value.enabled,

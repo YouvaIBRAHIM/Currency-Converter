@@ -3,13 +3,16 @@ import router from "@/router";
 import axiosInstance from "@/services/axios";
 import axios from 'axios';
 
+//state globale contenant les informations et les methodes relatives à l'authentification
 export const store = reactive({
     user: null,
     errors: null,
     status: null,
+    //génére un token permetant d'ouvrir une nouvelle session avec le serveur
     async getToken() {
         await axios.get(import.meta.env.VITE_API_URL + "/sanctum/csrf-cookie");
     },
+    //récupére l'utilisateur connecté
     async getUser() {
         await this.getToken();
         try {
@@ -22,6 +25,10 @@ export const store = reactive({
             return false;
         }
     },
+    /**
+     * Exécute une requete permettant de s'authentifier
+     * @param {Obect} data contient les informations saisis par l'utilisateur
+     */
     async handleLogin(data) {
         this.errors = null;
         await this.getToken();
@@ -38,6 +45,7 @@ export const store = reactive({
             this.errors = error.response.status == 422 ? "Les identifiants sont incorrects" : error.response.data.message;
         }
     },
+    //Exécute une requete permettant de se déconnecter
     async handleLogout() {
         try {
             const response = await axios.post(import.meta.env.VITE_API_URL + "/logout");

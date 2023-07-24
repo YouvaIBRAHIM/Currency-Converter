@@ -1,5 +1,12 @@
 import { getPairs } from "@/services/api";
 
+
+/**
+ * Récupére les paires
+ * @param {Object} currencies contiendra les paires
+ * @param {Object} state contiendra l'état de la récupération des paires
+ * @param {Number} page numéro de la page à récupérer
+ */
 export const usePairs = (pairs, state, page) => {
 
     const fetchData = async () => {

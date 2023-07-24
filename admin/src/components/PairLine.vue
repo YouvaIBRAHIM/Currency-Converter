@@ -18,13 +18,21 @@ const form = ref({
 
 const pairStatus = ref({isLoading : false});
 
+//permet d'afficher ou non les champs de modification et de récupérer les devises pour pouvoir les séléctionner
 const edit = (value = false) => {
     isEditing.value = value
-    if (isEditing.value === true) {
+    if (isEditing.value === true && currencies.value) {
         useCurrencies(currencies, state)
     }
 }
 
+/**
+ * Met à jour une paire
+ * @param {Object} form Contient les nouvelles valeurs de la paire
+ * @param {String} pair Contient les valeurs initiales de la paire
+ * @param {Function} edit Fait disparaitre les champs
+ * @param {Object} pairStatus Determine si la modification a réussi
+ */
 const onUpdateButton = async (form, pair, edit, pairStatus) => {
     const success = await props.onUpdateButton(form, pair, edit, pairStatus);
 

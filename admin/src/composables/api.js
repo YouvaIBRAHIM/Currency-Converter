@@ -1,5 +1,10 @@
 import { getApiConfig } from "@/services/api";
 
+/**
+ * Récupére la configuration de l'api
+ * @param {Obejct} config contiendra la configuration de l'api
+ * @param {Object} state contiendra l'erreur en cas d'echec de récupération
+ */
 export const useApiConfig = (config, state) => {
 
     const fetchData = async () => {
@@ -16,6 +21,7 @@ export const useApiConfig = (config, state) => {
 
 }
 
+//Object contenant les différents endpoints de l'api à afficher dans la documentation
 export const api = {
     "/ping" : {
       "endpoint": "/ping",

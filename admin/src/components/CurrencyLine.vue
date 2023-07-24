@@ -10,10 +10,10 @@ const isEditing = ref(false)
 const form = ref({name : currency.value.name, code: currency.value.code});
 const currencyStatus = ref({isLoading : false});
 
+//Permet d'afficher ou non les champs de modification
 const edit = (state = false) => {
     isEditing.value = state
 }
-
 
 </script>
 

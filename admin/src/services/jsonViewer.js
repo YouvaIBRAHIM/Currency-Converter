@@ -1,3 +1,6 @@
+
+//object permettant de formater et coloriser les json
+//Code tier
 const jsonColorizer = {
 	/**
 	 * Replacer for the json text
