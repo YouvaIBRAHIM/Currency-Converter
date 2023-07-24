@@ -731,6 +731,13 @@ export const api = {
               created_at: "2023-07-23T17:12:50.000000Z",
               updated_at: "2023-07-23T17:12:50.000000Z"
             }
+        },
+        "errorExample": {
+          code: 405,
+          text: "Method Not Allowed",
+          message: [
+            "Le champ \"from\" doit contenir 3 caractères."
+          ]
         }
     },
 }

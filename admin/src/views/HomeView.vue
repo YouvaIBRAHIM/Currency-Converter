@@ -51,8 +51,56 @@ const oncloseDrawer = () => {
               Dernière mise à jour : 24/07/2023
             </v-card-subtitle>
 
-            <v-card-text>
-              <div>Whitehaven Beach</div>
+            <v-card-title tag="h3" :style="{ color: '#000000' }">Présentation de MoneyValue</v-card-title>
+
+            <v-card-text class="mb-4">
+              <div>
+                Bienvenue dans la documentation de MoneyValue, une plateforme de conversion monétaire développée dans le domaine de la finance. MoneyValue offre un service public et gratuit qui permet d'acquérir des données sur les conversions de devises les plus demandées.
+              </div>
+            </v-card-text>
+
+            <v-card-title tag="h3" :style="{ color: '#000000' }">L'API REST de MoneyValue</v-card-title>
+
+            <v-card-text class="mb-4">
+              <div>
+                Notre API REST est spécialement conçue pour permettre aux développeurs tiers d'accéder facilement et efficacement à nos services de conversion de devises. Elle offre une solution robuste et flexible pour convertir des devises en d'autres devises en utilisant un endpoint simple.
+              </div>
+            </v-card-text>
+
+            <v-card-title tag="h3" :style="{ color: '#000000' }">Accès à l'API</v-card-title>
+
+            <v-card-text class="mb-4">
+              L'endpoint de l'API est : 
+              <v-code>
+                localhost:8000/api
+              </v-code>
+            </v-card-text>
+
+            <v-card-title tag="h3" :style="{ color: '#000000' }">Fonctionnalités de l'API</v-card-title>
+
+            <v-list lines="one">
+              <v-list-item
+              >
+              <strong>Vérification du service</strong> : Les développeurs externes peuvent effectuer une requête pour vérifier si notre service est fonctionnel avant de commencer la conversion des devises.
+              </v-list-item>
+              <v-list-item
+              >
+              <strong>Liste des devises</strong> : L'API fournit une liste des devise de conversion supportées, ce qui permet aux développeurs d'obtenir toutes les informations nécessaires.
+              </v-list-item>
+              <v-list-item
+              >
+              <strong>Liste des paires de conversion</strong> :  L'API fournit une liste des paires de conversion supportées, ce qui permet aux développeurs d'obtenir toutes les informations nécessaires pour effectuer des conversions spécifiques.
+              </v-list-item>
+              <v-list-item
+              >
+              <strong>Conversion de devises</strong> : Les développeurs peuvent utiliser l'API pour effectuer des conversions de devises en fournissant la quantité de devise à convertir et en spécifiant la paire de conversion souhaitée.
+              </v-list-item>
+            </v-list>
+
+            <v-card-title tag="h3" :style="{ color: '#000000' }">Format des données</v-card-title>
+
+            <v-card-text class="mb-4">
+              Les données de conversion sont retournées au format JSON, ce qui permet une intégration fluide avec différents systèmes.
             </v-card-text>
 
             <template v-for="(endpoint, key) in api" :key="key">

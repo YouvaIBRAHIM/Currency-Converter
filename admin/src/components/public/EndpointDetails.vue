@@ -140,6 +140,23 @@ const props = defineProps([ 'endpoint', 'description', 'onOpenDrawer'])
 
     <json-viewer :json="props.description.example" />
 
+
+    <template v-if="props.description.errorExample">
+        <v-chip
+            class="ma-2"
+            color="grey-darken-1"
+        >
+            Exemple de message d'erreur
+        </v-chip>
+
+        <v-divider></v-divider>
+
+        <div class="status">
+            <span> Statut : <strong class="error">405 / Method Not Allowed</strong></span>
+        </div>
+
+        <json-viewer :json="props.description.errorExample" />
+    </template>
     
 
 </template>
@@ -155,6 +172,10 @@ const props = defineProps([ 'endpoint', 'description', 'onOpenDrawer'])
 
 .status .success{
     color: #6ac510;
+}
+
+.status .error{
+    color: #cc3b3b;
 }
 
 .endpoint{

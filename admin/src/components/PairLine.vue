@@ -21,7 +21,7 @@ const pairStatus = ref({isLoading : false});
 //permet d'afficher ou non les champs de modification et de récupérer les devises pour pouvoir les séléctionner
 const edit = (value = false) => {
     isEditing.value = value
-    if (isEditing.value === true && currencies.value) {
+    if (isEditing.value === true && currencies.value == null) {
         useCurrencies(currencies, state)
     }
 }
