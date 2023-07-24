@@ -1,7 +1,8 @@
 <script setup>
-import { ref } from "vue";
-import { store } from "@/services/auth.js";
 import Config from "@/components/api/Config.vue";
+import { useTitle } from "@vueuse/core";
+
+useTitle("Configuration - Money Value");
 
 </script>
 

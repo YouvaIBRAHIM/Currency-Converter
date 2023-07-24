@@ -2,6 +2,9 @@
 import { ref } from "vue";
 import { store } from "@/services/auth.js";
 import { isValidEmail } from "@/services/utils";
+import { useTitle } from "@vueuse/core";
+
+useTitle("Connexion - Money Value");
 
 const form = ref({
   email: "",

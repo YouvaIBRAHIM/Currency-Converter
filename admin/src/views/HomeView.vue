@@ -3,6 +3,9 @@ import { ref } from 'vue';
 import ApiTester from "@/components/public/ApiTester.vue";
 import EndpointDetails from '@/components/public/EndpointDetails.vue';
 import { api } from "@/composables/api";
+import { useTitle } from "@vueuse/core";
+
+useTitle("Documentation - Money Value");
 
 const drawer = ref(false);
 

@@ -5,6 +5,10 @@ import { ref, watch } from "vue";
 import TableSkeletonLoader from "@/components/TableSkeletonLoader.vue";
 import { store } from "@/services/auth.js";
 import CurrencyPairsLine from "@/components/admin/CurrencyPairsLine.vue"
+import { useTitle } from "@vueuse/core";
+
+useTitle("Accueil - Money Value");
+
 const page = ref(router?.currentRoute?.value?.query?.page ?? 1)
 const currencies = ref(null);
 const state = ref({success : null, isLoading : false, error : null, snackbar: false});

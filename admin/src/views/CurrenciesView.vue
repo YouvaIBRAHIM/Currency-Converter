@@ -7,6 +7,9 @@ import router from "@/router";
 import { ref, watch } from "vue";
 import DeleteCurrency from "@/components/DeleteCurrency.vue";
 import TableSkeletonLoader from "@/components/TableSkeletonLoader.vue";
+import { useTitle } from "@vueuse/core";
+
+useTitle("Devises - Money Value");
 
 const page = ref(router?.currentRoute?.value?.query?.page ?? 1)
 const currencies = ref(null);

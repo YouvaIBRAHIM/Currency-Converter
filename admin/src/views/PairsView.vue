@@ -1,5 +1,4 @@
 <script setup>
-import CurrencyLine from "@/components/CurrencyLine.vue";
 import PairLine from "@/components/PairLine.vue";
 import NewPair, { dialog } from "@/components/NewPair.vue";
 import { usePairs } from "@/composables/pairs";
@@ -8,6 +7,9 @@ import router from "@/router";
 import { ref, watch } from "vue";
 import DeletePair from "@/components/DeletePair.vue";
 import TableSkeletonLoader from "@/components/TableSkeletonLoader.vue";
+import { useTitle } from "@vueuse/core";
+
+useTitle("Paires - Money Value");
 
 const page = ref(router?.currentRoute?.value?.query?.page ?? 1)
 const pairs = ref(null);
