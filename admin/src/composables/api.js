@@ -24,6 +24,7 @@ export const useApiConfig = (config, state) => {
 //Object contenant les différents endpoints de l'api à afficher dans la documentation
 export const api = {
     "/ping" : {
+      "id": "ping",
       "endpoint": "/ping",
       "title": "Vérifier l'état du serveur",
       "details": null,
@@ -49,6 +50,7 @@ export const api = {
       }
     },
     "/currencies" : {
+        "id": "currencies",
         "endpoint": "/currencies",
         "title": "Récupérer les devises disponibles",
         "details": null,
@@ -214,6 +216,7 @@ export const api = {
         }
     },
     "/pairs" : {
+      "id": "pairs",
       "endpoint": "/pairs",
       "title": "Récupérer les paires disponibles",
       "details": null,
@@ -575,6 +578,7 @@ export const api = {
       }
     },
     "/pairs/{from}/{to}/{amount}" : {
+        "id": "conversion",
         "endpoint": "/pairs/EUR/USD/2.2",
         "title": "Faire une conversion",
         "details": "L'API prend trois paramètres en entrée, effectue le calcul de conversion en utilisant les taux de change actuels entre les deux devises spécifiées, puis renvoie le montant équivalent dans la devise cible.",

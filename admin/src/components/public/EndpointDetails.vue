@@ -7,7 +7,7 @@ const props = defineProps([ 'endpoint', 'description', 'onOpenDrawer'])
 <template>
     <v-divider></v-divider>
 
-    <v-container class="d-flex flex-column justify-start align-start">
+    <v-container class="d-flex flex-column justify-start align-start" :id="props.description.id">
         <v-toolbar-title>
             {{ props.description?.title }}
         </v-toolbar-title>

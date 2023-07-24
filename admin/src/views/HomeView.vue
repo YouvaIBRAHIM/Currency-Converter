@@ -4,7 +4,7 @@ import ApiTester from "@/components/public/ApiTester.vue";
 import EndpointDetails from '@/components/public/EndpointDetails.vue';
 import { api } from "@/composables/api";
 import { useTitle } from "@vueuse/core";
-
+import { store } from "@/services/auth";
 useTitle("Documentation - Money Value");
 
 const drawer = ref(false);
@@ -27,7 +27,57 @@ const oncloseDrawer = () => {
 </script>
 
 <template>
+        <div class="text-right homeNav">
+          <a href="#ping">
+            <v-btn
+              variant="tonal"
+              color="blue-darken-4"
+            >
+                Ping
+            </v-btn>
+          </a>
+          <a href="#currencies">
+            <v-btn
+              variant="tonal"
+              color="blue-darken-4"
+            >
+                Devises
+            </v-btn>
+          </a>
+          <a href="#pairs">
+            <v-btn
+              variant="tonal"
+              color="blue-darken-4"
+            >
+                Paires
+            </v-btn>
+          </a>
+          <a href="#conversion">
+            <v-btn
+              variant="tonal"
+              color="blue-darken-4"
+            >
+                Conversion
+            </v-btn>
+          </a>
+          <v-menu>
+            <template v-slot:activator="{ props }">
+              <v-btn
+                color="blue-darken-4"
+                v-bind="props"
+              >
+              <v-icon icon="mdi-account" title="Enregistrer"></v-icon>
+              </v-btn>
+            </template>
+
+            <v-list>
+              <v-list-item v-if="!store.user" base-color="#000000" title="Se connecter" value="Login" to="/login"></v-list-item>
+              <v-list-item v-else base-color="#000000" title="Se connecter" value="Login" to="/login"></v-list-item>
+            </v-list>
+          </v-menu>
+        </div>
         <v-layout>
+          
           <v-navigation-drawer
             v-model="drawer"
             location="right"
@@ -113,13 +163,19 @@ const oncloseDrawer = () => {
 </template>
 
 <style>
+
+.homeNav{
+  z-index: 5000;
+  right: 20px;
+  position: fixed;
+}
 .main,
 .drawer{
   min-height: 100vh;
 }
 
 .drawer{
-  min-width: 550px;
+  min-width: 575px;
   position: fixed !important;
 }
 
