@@ -29,14 +29,14 @@ Installation des dépendances Laravel :
 2. Configurer les variables d'environnement :
    Ouvrez le fichier `.env` nouvellement copié et configurez les paramètres de connexion à la base de données, l'URL de l'application, etc., selon vos besoins.
 
-3. Générer une clé d'application :
-   ```
-   php artisan key:generate
-   ```
-
-4. Installer les dépendances Laravel :
+3. Installer les dépendances Laravel :
    ```
    composer install
+   ```
+
+4. Générer une clé d'application :
+   ```
+   php artisan key:generate
    ```
 
 5. Effectuer une migration avec le remplissage de la base de données :
