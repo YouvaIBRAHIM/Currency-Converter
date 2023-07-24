@@ -22,6 +22,31 @@ class CurrencyController extends Controller
         }
     }
 
+    public function getCurrenciesWithPairs()
+    {
+        try {
+            $currencies = Currency::with(["pairsFrom"])->orderBy('created_at', 'desc')->paginate(5);
+            foreach ($currencies as $currency) {
+                $pairsFrom = $currency->pairsFrom;
+                $pairs = [];
+                foreach ($pairsFrom as $pair) {
+
+                    $pairs[] = [
+                        "name" => $pair->toCurrency->name,
+                        "code" => $pair->toCurrency->code,
+                        "currency_rate" => $pair->currency_rate,
+                        "count" => $pair->count->count
+                    ];
+                }
+                $currency->pairs = $pairs;
+            }
+            return response()->json($currencies, 200);
+        } catch (\Throwable $th) {
+            return response()->json(["Oups ! Nous n'avons pas pu récupérer les données."], 500);
+        }
+    }
+
+
     public function getAllCurrencies() 
     {
         try {

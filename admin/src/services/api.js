@@ -8,6 +8,13 @@ export const getCurrencies = async (page) => {
     return response.data;
 }
 
+export const getCurrenciesWithPairs = async (page) => {
+    const url = `/currencies/pairs?page=${page}`;
+    const response = await axiosInstance.get(url)
+    return response.data;
+}
+
+
 export const addCurrency = async (data) => {
     const response = await axiosInstance.post('/currencies', data)
     return response.data;

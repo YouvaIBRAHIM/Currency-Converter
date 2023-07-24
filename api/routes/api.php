@@ -42,7 +42,9 @@ Route::group([ 'middleware' => 'check.api'], function () {
     //Devises
     Route::get('/currencies', "App\Http\Controllers\CurrencyController@index");
     Route::get('/currencies/all', "App\Http\Controllers\CurrencyController@getAllCurrencies");
+    Route::get('/currencies/pairs', "App\Http\Controllers\CurrencyController@getCurrenciesWithPairs");
     Route::get('/currencies/{currency}', "App\Http\Controllers\CurrencyController@show");
+    
     
     //Paires
     Route::get('/pairs', "App\Http\Controllers\PairController@index");

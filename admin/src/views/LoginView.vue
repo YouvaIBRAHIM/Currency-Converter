@@ -24,7 +24,7 @@ const rules = {
       <img
       class="mx-auto my-6 logo"
       width="228"
-      src="/img/logo.svg"
+      src="/img/logo_big.PNG"
     />
     </v-container>
 

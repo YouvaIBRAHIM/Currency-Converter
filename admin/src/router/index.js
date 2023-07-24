@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from "vue-router";
 
 import LoginView from "@/views/LoginView.vue";
 import HomeView from "@/views/HomeView.vue";
+import AdminView from "@/views/AdminView.vue";
 import CurrenciesView from "@/views/CurrenciesView.vue";
 import ConfigurationView from "@/views/ConfigurationView.vue";
 
@@ -18,7 +19,7 @@ const routes = [
   {
     path: "/admin",
     name: "Admin",
-    component: HomeView,
+    component: AdminView,
     meta: {
       middleware: "auth",
     }
