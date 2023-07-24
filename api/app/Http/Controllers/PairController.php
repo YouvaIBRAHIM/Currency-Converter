@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Validator;
 class PairController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Récupére les paires disponibles avec une pagination
      */
     public function index()
     {
@@ -24,12 +24,12 @@ class PairController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Ajoute une nouvelle paire
      */
     public function store(Request $request)
     {
         try {
-
+            //validation des champs
             $validator = Validator::make(
                 $request->all(),
                 [
@@ -86,11 +86,16 @@ class PairController extends Controller
         }
     }
 
-
+    /**
+     * Effectue une conversion
+     * @param string $from Code de la devise à convertir
+     * @param string $to Code de la devise sur laquelle on applique la comparaison
+     * @param integer|float $amount Montant à convertir
+     */
     public function convert($from, $to, $amount)
     {
         try {
-            
+            //validation des champs
             $validator = Validator::make(
                 ["from" => $from, "to" => $to, "amount" => $amount],
                 [
@@ -151,20 +156,13 @@ class PairController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Pair $pair)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
+     * Met à jour une paire
+    * @param object $pair instance de la paire à modifier     
+    * */
     public function update(Request $request, Pair $pair)
     {
         try {
-
+            // Validation des champs
             $validator = Validator::make(
                 $request->all(),
                 [
@@ -223,8 +221,9 @@ class PairController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
-     */
+     * Supprime une paire
+    * @param object $pair instance de la paire à supprimer     
+    * */
     public function destroy(Pair $pair)
     {
         try {

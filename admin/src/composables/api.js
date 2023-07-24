@@ -16,8 +16,6 @@ export const useApiConfig = (config, state) => {
 
 }
 
-
-
 export const api = {
     "/ping" : {
       "endpoint": "/ping",

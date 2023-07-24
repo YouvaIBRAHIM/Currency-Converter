@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Validator;
 class CurrencyController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Récupére les devises disponibles avec une pagination
      */
     public function index()
     {
@@ -22,6 +22,10 @@ class CurrencyController extends Controller
         }
     }
 
+
+    /**
+     * Récupére les devises disponibles avec paires qui leurs sont liées et avec une pagination
+     */
     public function getCurrenciesWithPairs()
     {
         try {
@@ -46,7 +50,9 @@ class CurrencyController extends Controller
         }
     }
 
-
+    /**
+     * Récupére toutes les devises disponibles
+     */
     public function getAllCurrencies() 
     {
         try {
@@ -59,20 +65,13 @@ class CurrencyController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
+     * Ajoute une nouvelle devise
      */
     public function store(Request $request)
     {
 
         try {
+            //validation des champs
             $validator = Validator::make(
                 $request->all(),
                 [
@@ -117,25 +116,11 @@ class CurrencyController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Currency $currency)
-    {
-        //
-    }
 
     /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Currency $currency)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
+     * Met à jour une devise
+    * @param object $currency instance de la devise à modifier     
+    * */
     public function update(Request $request, Currency $currency)
     {
 
@@ -185,8 +170,9 @@ class CurrencyController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
-     */
+     * Met à jour une devise
+    * @param object $currency instance de la devise à supprimer     
+    * */
     public function destroy(Currency $currency)
     {
         try {

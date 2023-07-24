@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Validator;
 
 class ApiController extends Controller
 {
+    // Vérifie si l'api est accessible au public
     public function ping()
     {
         try {
@@ -22,6 +23,7 @@ class ApiController extends Controller
         }
     }
 
+    // Modifie l'accessibilité et le message de maintenance de l'api
     public function setApiConfig(Request $request) {
         try {
             $validator = Validator::make(
@@ -64,6 +66,7 @@ class ApiController extends Controller
         }
     }
 
+    // Récupére la configuration de l'api
     public function getApiConfig(Request $request) {
         try {
 
